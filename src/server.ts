@@ -24,7 +24,7 @@
   
   // Configuración de CORS
   app.use(cors({
-    origin: 'http://localhost:4200', //Creo que el que tenia era '*'
+    origin: 'https://citasmedicas4.netlify.app', //Creo que el que tenia era '*'
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -50,6 +50,12 @@
     port: parseInt(process.env.DB_PORT || '3306'),
     connectionLimit: 10
   });
+
+// Ejemplo de ruta para verificar el funcionamiento de la API
+app.get('/', (_req: Request, res: Response) => {
+  res.send('API de Citas Médicas con APIs funcionando correctamente!!!');
+});
+
 
 
 // Configuración de PayPal
@@ -513,7 +519,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req: Request, res: Response) 
   passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-    callbackURL: process.env.GITHUB_CALLBACK_URL || "http://localhost:3000/api/auth/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL || "https://localhost:3000/api/auth/github/callback"
   },
   async function(accessToken: string, refreshToken: string, profile: any, done: (error: any, user?: any) => void) {
     try {
@@ -575,7 +581,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req: Request, res: Response) 
           const encodedUserName = encodeURIComponent(user.nombre);
     
           // Redirige a la página de citas con userId y userName
-          res.redirect(`http://localhost:4200/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
+          res.redirect(`https://citasmedicas4.netlify.app/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
         } catch (error) {
           console.error('Error in GitHub callback:', error);
           res.redirect('/login?error=internal_server_error');
@@ -614,7 +620,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req: Request, res: Response) 
           process.env.JWT_SECRET || 'tu_secreto_jwt', 
           { expiresIn: '1h' }
         );
-        res.redirect(`http://localhost:4200/auth-callback?token=${token}`);
+        res.redirect(`https://citasmedicas4.netlify.app/auth-callback?token=${token}`);
       });
 
 
