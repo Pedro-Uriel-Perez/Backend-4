@@ -1,0 +1,336 @@
+info: Iniciando envío de comprobante a piter500monzon@gmail.com
+info: Correo enviado:
+info: Comprobante enviado a piter500monzon@gmail.com
+info: Correo de registro enviado exitosamente
+info: Comprobante enviado a mijelito333@gmail.com
+info: Correo de registro enviado exitosamente
+info: Comprobante enviado a piter500monzon@gmail.com
+info: Correo de registro enviado exitosamente
+info: Comprobante enviado a piter500monzon@gmail.com
+info: Correo de registro enviado exitosamente en /hospitales
+info: Correo de registro enviado exitosamente en /hospitales
+info: Correo de registro enviado exitosamente en /hospitales
+info: Correo de registro enviado exitosamente desde /hospitales
+info: Correo de registro enviado exitosamente desde /hospitales
+info: Datos recibidos para el pago de PayPal: {"codigoSeguridad":"N/A","fechaExpiracion":"N/A","fechaPago":"2024-10-20T01:53:41.884Z","idHospital":94,"monto":100,"nombreTitular":"John Doe","numeroTarjeta":"PayPal"}
+info: Datos recibidos para el pago de PayPal: {"codigoSeguridad":"N/A","fechaExpiracion":"N/A","fechaPago":"2024-10-20T01:54:03.902Z","idHospital":94,"monto":100,"nombreTitular":"John Doe","numeroTarjeta":"PayPal"}
+info: Datos recibidos para el pago de PayPal: {"codigoSeguridad":"N/A","fechaExpiracion":"N/A","fechaPago":"2024-10-20T01:56:15.473Z","idHospital":94,"monto":100,"nombreTitular":"John Doe","numeroTarjeta":"PayPal"}
+info: Datos recibidos para el pago de PayPal: {"codigoSeguridad":"N/A","detallesPago":{"id":"ID_DE_LA_ORDEN_DE_PAYPAL"},"fechaExpiracion":"N/A","fechaPago":"2024-10-20T01:58:55.533Z","idHospital":94,"monto":100,"nombreTitular":"John Doe","numeroTarjeta":"PayPal"}
+error: Error al procesar el pago de PayPal: {"name":"RESOURCE_NOT_FOUND","details":[{"issue":"INVALID_RESOURCE_ID","description":"Specified resource ID does not exist. Please check the resource ID and try again."}],"message":"The specified resource does not exist.","debug_id":"31823171d9b1a","links":[{"href":"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#INVALID_RESOURCE_ID","rel":"information_link","method":"GET"}]} {"_originalError":{"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"396","content-type":"application/json","date":"Sun, 20 Oct 2024 01:57:44 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"31823171d9b1a","server-timing":"traceparent;desc=\"00-000000000000000000031823171d9b1a-e56958b6bfa8b5e9-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-000000000000000000031823171d9b1a-972ba97789be74d6-01","vary":"Accept-Encoding"},"statusCode":404,"text":"{\"name\":\"RESOURCE_NOT_FOUND\",\"details\":[{\"issue\":\"INVALID_RESOURCE_ID\",\"description\":\"Specified resource ID does not exist. Please check the resource ID and try again.\"}],\"message\":\"The specified resource does not exist.\",\"debug_id\":\"31823171d9b1a\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#INVALID_RESOURCE_ID\",\"rel\":\"information_link\",\"method\":\"GET\"}]}"},"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"396","content-type":"application/json","date":"Sun, 20 Oct 2024 01:57:44 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"31823171d9b1a","server-timing":"traceparent;desc=\"00-000000000000000000031823171d9b1a-e56958b6bfa8b5e9-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-000000000000000000031823171d9b1a-972ba97789be74d6-01","vary":"Accept-Encoding"},"stack":"Error: {\"name\":\"RESOURCE_NOT_FOUND\",\"details\":[{\"issue\":\"INVALID_RESOURCE_ID\",\"description\":\"Specified resource ID does not exist. Please check the resource ID and try again.\"}],\"message\":\"The specified resource does not exist.\",\"debug_id\":\"31823171d9b1a\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#INVALID_RESOURCE_ID\",\"rel\":\"information_link\",\"method\":\"GET\"}]}\n    at IncomingMessage.<anonymous> (C:\\Users\\piter\\OneDrive\\Escritorio\\Aplicaciones web orientada a servicios\\CitasMedicasCompletoActual\\node_modules\\@paypal\\paypalhttp\\lib\\paypalhttp\\http_client.js:140:22)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at processTicksAndRejections (node:internal/process/task_queues:82:21)","statusCode":404}
+info: Datos recibidos para el pago de PayPal: {"codigoSeguridad":"N/A","detallesPago":{"id":{"address":{"country_code":"MX"},"email_address":"sb-btsai32968073@personal.example.com","name":{"given_name":"John","surname":"Doe"},"payer_id":"C7CHMWWAET85Y"}},"fechaExpiracion":"N/A","fechaPago":"2024-10-20T02:07:41.263Z","idHospital":94,"monto":100,"nombreTitular":"John Doe","numeroTarjeta":"PayPal"}
+error: Error al procesar el pago de PayPal: {"name":"RESOURCE_NOT_FOUND","details":[{"issue":"INVALID_RESOURCE_ID","description":"Specified resource ID does not exist. Please check the resource ID and try again."}],"message":"The specified resource does not exist.","debug_id":"ed7ba28b0b238","links":[{"href":"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#INVALID_RESOURCE_ID","rel":"information_link","method":"GET"}]} {"_originalError":{"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"396","content-type":"application/json","date":"Sun, 20 Oct 2024 02:06:31 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"ed7ba28b0b238","server-timing":"traceparent;desc=\"00-0000000000000000000ed7ba28b0b238-196df8e03c74e4d8-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-0000000000000000000ed7ba28b0b238-cbb6c69e977c00e1-01","vary":"Accept-Encoding"},"statusCode":404,"text":"{\"name\":\"RESOURCE_NOT_FOUND\",\"details\":[{\"issue\":\"INVALID_RESOURCE_ID\",\"description\":\"Specified resource ID does not exist. Please check the resource ID and try again.\"}],\"message\":\"The specified resource does not exist.\",\"debug_id\":\"ed7ba28b0b238\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#INVALID_RESOURCE_ID\",\"rel\":\"information_link\",\"method\":\"GET\"}]}"},"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"396","content-type":"application/json","date":"Sun, 20 Oct 2024 02:06:31 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"ed7ba28b0b238","server-timing":"traceparent;desc=\"00-0000000000000000000ed7ba28b0b238-196df8e03c74e4d8-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-0000000000000000000ed7ba28b0b238-cbb6c69e977c00e1-01","vary":"Accept-Encoding"},"stack":"Error: {\"name\":\"RESOURCE_NOT_FOUND\",\"details\":[{\"issue\":\"INVALID_RESOURCE_ID\",\"description\":\"Specified resource ID does not exist. Please check the resource ID and try again.\"}],\"message\":\"The specified resource does not exist.\",\"debug_id\":\"ed7ba28b0b238\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#INVALID_RESOURCE_ID\",\"rel\":\"information_link\",\"method\":\"GET\"}]}\n    at IncomingMessage.<anonymous> (C:\\Users\\piter\\OneDrive\\Escritorio\\Aplicaciones web orientada a servicios\\CitasMedicasCompletoActual\\node_modules\\@paypal\\paypalhttp\\lib\\paypalhttp\\http_client.js:140:22)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at processTicksAndRejections (node:internal/process/task_queues:82:21)","statusCode":404}
+info: Correo de registro enviado exitosamente desde /hospitales
+info: Datos recibidos para el pago de PayPal: {"codigoSeguridad":"N/A","detallesPago":{"id":{"address":{"country_code":"MX"},"email_address":"sb-btsai32968073@personal.example.com","name":{"given_name":"John","surname":"Doe"},"payer_id":"C7CHMWWAET85Y"}},"fechaExpiracion":"N/A","fechaPago":"2024-10-20T02:09:11.117Z","idHospital":95,"monto":100,"nombreTitular":"John Doe","numeroTarjeta":"PayPal"}
+error: Error al procesar el pago de PayPal: {"name":"RESOURCE_NOT_FOUND","details":[{"issue":"INVALID_RESOURCE_ID","description":"Specified resource ID does not exist. Please check the resource ID and try again."}],"message":"The specified resource does not exist.","debug_id":"8c6648dbf13ae","links":[{"href":"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#INVALID_RESOURCE_ID","rel":"information_link","method":"GET"}]} {"_originalError":{"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"396","content-type":"application/json","date":"Sun, 20 Oct 2024 02:07:59 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"8c6648dbf13ae","server-timing":"traceparent;desc=\"00-00000000000000000008c6648dbf13ae-84709ebbcdaeb7c8-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-00000000000000000008c6648dbf13ae-a90e49409e6ce28b-01","vary":"Accept-Encoding"},"statusCode":404,"text":"{\"name\":\"RESOURCE_NOT_FOUND\",\"details\":[{\"issue\":\"INVALID_RESOURCE_ID\",\"description\":\"Specified resource ID does not exist. Please check the resource ID and try again.\"}],\"message\":\"The specified resource does not exist.\",\"debug_id\":\"8c6648dbf13ae\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#INVALID_RESOURCE_ID\",\"rel\":\"information_link\",\"method\":\"GET\"}]}"},"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"396","content-type":"application/json","date":"Sun, 20 Oct 2024 02:07:59 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"8c6648dbf13ae","server-timing":"traceparent;desc=\"00-00000000000000000008c6648dbf13ae-84709ebbcdaeb7c8-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-00000000000000000008c6648dbf13ae-a90e49409e6ce28b-01","vary":"Accept-Encoding"},"stack":"Error: {\"name\":\"RESOURCE_NOT_FOUND\",\"details\":[{\"issue\":\"INVALID_RESOURCE_ID\",\"description\":\"Specified resource ID does not exist. Please check the resource ID and try again.\"}],\"message\":\"The specified resource does not exist.\",\"debug_id\":\"8c6648dbf13ae\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#INVALID_RESOURCE_ID\",\"rel\":\"information_link\",\"method\":\"GET\"}]}\n    at IncomingMessage.<anonymous> (C:\\Users\\piter\\OneDrive\\Escritorio\\Aplicaciones web orientada a servicios\\CitasMedicasCompletoActual\\node_modules\\@paypal\\paypalhttp\\lib\\paypalhttp\\http_client.js:140:22)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at processTicksAndRejections (node:internal/process/task_queues:82:21)","statusCode":404}
+info: Datos recibidos para el pago de PayPal: {"codigoSeguridad":"N/A","fechaExpiracion":"N/A","fechaPago":"2024-10-20T02:15:45.006Z","idHospital":95,"monto":100,"nombreTitular":"John Doe","numeroTarjeta":"PayPal"}
+info: Correo de registro enviado exitosamente desde /hospitales
+info: Correo de registro enviado exitosamente desde /hospitales
+info: Correo de registro enviado exitosamente desde /hospitales
+info: Correo de registro enviado exitosamente desde /hospitales
+info: Correo de comprobante enviado a: piter500monzon@gmail.com
+info: Correo de registro enviado exitosamente desde /hospitales
+info: Correo de registro enviado exitosamente
+info: Correo de registro enviado exitosamente
+info: Correo de registro enviado exitosamente
+{"level":"info","message":"Correo de registro enviado exitosamente","timestamp":"2024-10-20T05:15:54.422Z"}
+{"level":"info","message":"Correo de registro enviado exitosamente","timestamp":"2024-10-20T05:21:32.827Z"}
+{"level":"info","message":"Correo de registro enviado exitosamente","timestamp":"2024-10-20T05:27:07.935Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-20T05:40:17.389Z"}
+{"level":"info","message":"Datos recibidos:","timestamp":"2024-10-20T05:40:17.395Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 108, monto: 100","timestamp":"2024-10-20T05:40:17.396Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-20T05:40:19.929Z"}
+{"_originalError":{"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"465","content-type":"application/json","date":"Sun, 20 Oct 2024 05:39:08 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"b678b78e932ab","server-timing":"traceparent;desc=\"00-0000000000000000000b678b78e932ab-ef5eb179bcb3e68b-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-0000000000000000000b678b78e932ab-f8a1f7a532feaddd-01","vary":"Accept-Encoding"},"statusCode":422,"text":"{\"name\":\"UNPROCESSABLE_ENTITY\",\"details\":[{\"issue\":\"ORDER_ALREADY_CAPTURED\",\"description\":\"Order already captured.If 'intent=CAPTURE' only one capture per order is allowed.\"}],\"message\":\"The requested action could not be performed, semantically incorrect, or failed business validation.\",\"debug_id\":\"b678b78e932ab\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_ALREADY_CAPTURED\",\"rel\":\"information_link\",\"method\":\"GET\"}]}"},"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"465","content-type":"application/json","date":"Sun, 20 Oct 2024 05:39:08 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"b678b78e932ab","server-timing":"traceparent;desc=\"00-0000000000000000000b678b78e932ab-ef5eb179bcb3e68b-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-0000000000000000000b678b78e932ab-f8a1f7a532feaddd-01","vary":"Accept-Encoding"},"level":"error","message":"Error al procesar el pago de PayPal: {\"name\":\"UNPROCESSABLE_ENTITY\",\"details\":[{\"issue\":\"ORDER_ALREADY_CAPTURED\",\"description\":\"Order already captured.If 'intent=CAPTURE' only one capture per order is allowed.\"}],\"message\":\"The requested action could not be performed, semantically incorrect, or failed business validation.\",\"debug_id\":\"b678b78e932ab\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_ALREADY_CAPTURED\",\"rel\":\"information_link\",\"method\":\"GET\"}]}","stack":"Error: {\"name\":\"UNPROCESSABLE_ENTITY\",\"details\":[{\"issue\":\"ORDER_ALREADY_CAPTURED\",\"description\":\"Order already captured.If 'intent=CAPTURE' only one capture per order is allowed.\"}],\"message\":\"The requested action could not be performed, semantically incorrect, or failed business validation.\",\"debug_id\":\"b678b78e932ab\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_ALREADY_CAPTURED\",\"rel\":\"information_link\",\"method\":\"GET\"}]}\n    at IncomingMessage.<anonymous> (C:\\Users\\piter\\OneDrive\\Escritorio\\Aplicaciones web orientada a servicios\\CitasMedicasCompletoActual\\node_modules\\@paypal\\paypalhttp\\lib\\paypalhttp\\http_client.js:140:22)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at processTicksAndRejections (node:internal/process/task_queues:82:21)","statusCode":422,"timestamp":"2024-10-20T05:40:20.764Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-20T05:43:47.189Z"}
+{"detallesPago":{"id":"5FB20084MC246973C"},"idHospital":108,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-20T05:43:47.193Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 108, monto: 100","timestamp":"2024-10-20T05:43:47.194Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-20T05:43:49.125Z"}
+{"_originalError":{"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"465","content-type":"application/json","date":"Sun, 20 Oct 2024 05:42:37 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"03f1082908a2e","server-timing":"traceparent;desc=\"00-000000000000000000003f1082908a2e-f7d03b24d6d638de-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-000000000000000000003f1082908a2e-9092f02e9c5132a0-01","vary":"Accept-Encoding"},"statusCode":422,"text":"{\"name\":\"UNPROCESSABLE_ENTITY\",\"details\":[{\"issue\":\"ORDER_ALREADY_CAPTURED\",\"description\":\"Order already captured.If 'intent=CAPTURE' only one capture per order is allowed.\"}],\"message\":\"The requested action could not be performed, semantically incorrect, or failed business validation.\",\"debug_id\":\"03f1082908a2e\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_ALREADY_CAPTURED\",\"rel\":\"information_link\",\"method\":\"GET\"}]}"},"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"465","content-type":"application/json","date":"Sun, 20 Oct 2024 05:42:37 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"03f1082908a2e","server-timing":"traceparent;desc=\"00-000000000000000000003f1082908a2e-f7d03b24d6d638de-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-000000000000000000003f1082908a2e-9092f02e9c5132a0-01","vary":"Accept-Encoding"},"level":"error","message":"Error al procesar el pago de PayPal: {\"name\":\"UNPROCESSABLE_ENTITY\",\"details\":[{\"issue\":\"ORDER_ALREADY_CAPTURED\",\"description\":\"Order already captured.If 'intent=CAPTURE' only one capture per order is allowed.\"}],\"message\":\"The requested action could not be performed, semantically incorrect, or failed business validation.\",\"debug_id\":\"03f1082908a2e\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_ALREADY_CAPTURED\",\"rel\":\"information_link\",\"method\":\"GET\"}]}","stack":"Error: {\"name\":\"UNPROCESSABLE_ENTITY\",\"details\":[{\"issue\":\"ORDER_ALREADY_CAPTURED\",\"description\":\"Order already captured.If 'intent=CAPTURE' only one capture per order is allowed.\"}],\"message\":\"The requested action could not be performed, semantically incorrect, or failed business validation.\",\"debug_id\":\"03f1082908a2e\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_ALREADY_CAPTURED\",\"rel\":\"information_link\",\"method\":\"GET\"}]}\n    at IncomingMessage.<anonymous> (C:\\Users\\piter\\OneDrive\\Escritorio\\Aplicaciones web orientada a servicios\\CitasMedicasCompletoActual\\node_modules\\@paypal\\paypalhttp\\lib\\paypalhttp\\http_client.js:140:22)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at processTicksAndRejections (node:internal/process/task_queues:82:21)","statusCode":422,"timestamp":"2024-10-20T05:43:50.028Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-20T05:46:23.793Z"}
+{"detallesPago":{"id":"7EY83926U7856720E"},"idHospital":109,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-20T05:46:23.794Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 109, monto: 100","timestamp":"2024-10-20T05:46:23.795Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-20T05:46:24.899Z"}
+{"_originalError":{"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"465","content-type":"application/json","date":"Sun, 20 Oct 2024 05:45:13 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"98901bd71be1e","server-timing":"traceparent;desc=\"00-000000000000000000098901bd71be1e-4cb52d10cc7514e0-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-000000000000000000098901bd71be1e-5d59a79ba6ac9917-01","vary":"Accept-Encoding"},"statusCode":422,"text":"{\"name\":\"UNPROCESSABLE_ENTITY\",\"details\":[{\"issue\":\"ORDER_ALREADY_CAPTURED\",\"description\":\"Order already captured.If 'intent=CAPTURE' only one capture per order is allowed.\"}],\"message\":\"The requested action could not be performed, semantically incorrect, or failed business validation.\",\"debug_id\":\"98901bd71be1e\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_ALREADY_CAPTURED\",\"rel\":\"information_link\",\"method\":\"GET\"}]}"},"headers":{"access-control-expose-headers":"Server-Timing","application_id":"APP-80W284485P519543T","cache-control":"max-age=0, no-cache, no-store, must-revalidate","caller_acct_num":"XEUD8KNFFEAPE","connection":"keep-alive","content-length":"465","content-type":"application/json","date":"Sun, 20 Oct 2024 05:45:13 GMT","http_x_pp_az_locator":"ccg18.slc","paypal-debug-id":"98901bd71be1e","server-timing":"traceparent;desc=\"00-000000000000000000098901bd71be1e-4cb52d10cc7514e0-01\"","strict-transport-security":"max-age=31536000; includeSubDomains","traceparent":"00-000000000000000000098901bd71be1e-5d59a79ba6ac9917-01","vary":"Accept-Encoding"},"level":"error","message":"Error al procesar el pago de PayPal: {\"name\":\"UNPROCESSABLE_ENTITY\",\"details\":[{\"issue\":\"ORDER_ALREADY_CAPTURED\",\"description\":\"Order already captured.If 'intent=CAPTURE' only one capture per order is allowed.\"}],\"message\":\"The requested action could not be performed, semantically incorrect, or failed business validation.\",\"debug_id\":\"98901bd71be1e\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_ALREADY_CAPTURED\",\"rel\":\"information_link\",\"method\":\"GET\"}]}","stack":"Error: {\"name\":\"UNPROCESSABLE_ENTITY\",\"details\":[{\"issue\":\"ORDER_ALREADY_CAPTURED\",\"description\":\"Order already captured.If 'intent=CAPTURE' only one capture per order is allowed.\"}],\"message\":\"The requested action could not be performed, semantically incorrect, or failed business validation.\",\"debug_id\":\"98901bd71be1e\",\"links\":[{\"href\":\"https://developer.paypal.com/api/rest/reference/orders/v2/errors/#ORDER_ALREADY_CAPTURED\",\"rel\":\"information_link\",\"method\":\"GET\"}]}\n    at IncomingMessage.<anonymous> (C:\\Users\\piter\\OneDrive\\Escritorio\\Aplicaciones web orientada a servicios\\CitasMedicasCompletoActual\\node_modules\\@paypal\\paypalhttp\\lib\\paypalhttp\\http_client.js:140:22)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at processTicksAndRejections (node:internal/process/task_queues:82:21)","statusCode":422,"timestamp":"2024-10-20T05:46:25.733Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-20T05:48:37.735Z"}
+{"detallesPago":{"id":"1C6263343A582084C"},"idHospital":110,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-20T05:48:37.738Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 110, monto: 100","timestamp":"2024-10-20T05:48:37.738Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-20T05:48:38.822Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-20T05:48:38.824Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-20T05:50:58.821Z"}
+{"detallesPago":{"id":"63340479TF228493S"},"idHospital":111,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-20T05:50:58.822Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 111, monto: 100","timestamp":"2024-10-20T05:50:58.822Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-20T05:50:59.843Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-20T05:50:59.844Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-20T05:55:19.571Z"}
+{"detallesPago":{"id":"6J002410JW2533221"},"idHospital":112,"level":"info","message":"Datos recibidos:","monto":500,"timestamp":"2024-10-20T05:55:19.572Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 112, monto: 500","timestamp":"2024-10-20T05:55:19.573Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-20T05:55:20.630Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-20T05:55:20.631Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-20T05:58:10.520Z"}
+{"detallesPago":{"id":"2HB517287U677373D"},"idHospital":113,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-20T05:58:10.523Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 113, monto: 100","timestamp":"2024-10-20T05:58:10.524Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-20T05:58:11.670Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-20T05:58:11.671Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-20T06:08:06.703Z"}
+{"detallesPago":{"id":"93Y422018L2373621"},"idHospital":114,"level":"info","message":"Datos recibidos:","monto":250,"timestamp":"2024-10-20T06:08:06.706Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 114, monto: 250","timestamp":"2024-10-20T06:08:06.707Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-20T06:08:07.772Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-20T06:08:07.773Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-20T06:08:07.774Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 40","timestamp":"2024-10-20T06:08:07.777Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-20T06:08:07.780Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-20T06:08:07.780Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-20T06:08:07.781Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-20T06:08:09.462Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-20T06:08:09.463Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-20T06:14:05.802Z"}
+{"detallesPago":{"id":"5NH566354V0012508"},"idHospital":115,"level":"info","message":"Datos recibidos:","monto":500,"timestamp":"2024-10-20T06:14:05.808Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 115, monto: 500","timestamp":"2024-10-20T06:14:05.810Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-20T06:14:07.592Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-20T06:14:07.594Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-20T06:14:07.596Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 41","timestamp":"2024-10-20T06:14:07.604Z"}
+{"level":"info","message":"Correo del hospital obtenido: mijelito333@gmail.com","timestamp":"2024-10-20T06:14:07.609Z"}
+{"level":"info","message":"Intentando enviar comprobante a: mijelito333@gmail.com","timestamp":"2024-10-20T06:14:07.610Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: mijelito333@gmail.com","timestamp":"2024-10-20T06:14:07.612Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-20T06:14:09.292Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-20T06:14:09.293Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-22T18:51:27.244Z"}
+{"detallesPago":{"id":"90K48007N8660290U"},"idHospital":116,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-22T18:51:27.253Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 116, monto: 100","timestamp":"2024-10-22T18:51:27.254Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-22T18:51:28.636Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-22T18:51:28.638Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-22T18:51:28.639Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 42","timestamp":"2024-10-22T18:51:28.648Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-22T18:51:28.653Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-22T18:51:28.655Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-22T18:51:28.657Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-22T18:51:30.101Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-22T18:51:30.102Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-23T03:59:05.003Z"}
+{"detallesPago":{"id":"18C06872V3178270B"},"idHospital":117,"level":"info","message":"Datos recibidos:","monto":500,"timestamp":"2024-10-23T03:59:05.011Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 117, monto: 500","timestamp":"2024-10-23T03:59:05.013Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-23T03:59:06.716Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-23T03:59:06.717Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-23T03:59:06.719Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 43","timestamp":"2024-10-23T03:59:06.726Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-23T03:59:06.730Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-23T03:59:06.731Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-23T03:59:06.732Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-23T03:59:08.427Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-23T03:59:08.428Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-24T15:00:04.671Z"}
+{"detallesPago":{"id":"7DE91158WX010481L"},"idHospital":118,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-24T15:00:04.677Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 118, monto: 100","timestamp":"2024-10-24T15:00:04.678Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-24T15:00:05.789Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-24T15:00:05.790Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-24T15:00:05.791Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 44","timestamp":"2024-10-24T15:00:05.798Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-24T15:00:05.803Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-24T15:00:05.804Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-24T15:00:05.806Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-24T15:00:07.099Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-24T15:00:07.100Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-25T14:30:36.168Z"}
+{"detallesPago":{"id":"2G090243GU1422546"},"idHospital":119,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-25T14:30:36.190Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 119, monto: 100","timestamp":"2024-10-25T14:30:36.192Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-25T14:30:37.268Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-25T14:30:37.270Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-25T14:30:37.274Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 45","timestamp":"2024-10-25T14:30:37.280Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-25T14:30:37.283Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-25T14:30:37.285Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-25T14:30:37.287Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-25T14:30:38.283Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-25T14:30:38.284Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-25T15:42:26.491Z"}
+{"detallesPago":{"id":"0GX53742VT806092R"},"idHospital":120,"level":"info","message":"Datos recibidos:","monto":500,"timestamp":"2024-10-25T15:42:26.495Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 120, monto: 500","timestamp":"2024-10-25T15:42:26.496Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-25T15:42:27.230Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-25T15:42:27.233Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-25T15:42:27.234Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 46","timestamp":"2024-10-25T15:42:27.240Z"}
+{"level":"info","message":"Correo del hospital obtenido: isac.c.2586@gmail.com","timestamp":"2024-10-25T15:42:27.241Z"}
+{"level":"info","message":"Intentando enviar comprobante a: isac.c.2586@gmail.com","timestamp":"2024-10-25T15:42:27.242Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: isac.c.2586@gmail.com","timestamp":"2024-10-25T15:42:27.242Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-25T15:42:28.451Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-25T15:42:28.453Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T01:35:44.357Z"}
+{"detallesPago":{"id":"82164937WY7945604"},"idHospital":121,"level":"info","message":"Datos recibidos:","monto":250,"timestamp":"2024-10-26T01:35:44.381Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 121, monto: 250","timestamp":"2024-10-26T01:35:44.383Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T01:35:46.917Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T01:35:46.918Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T01:35:46.918Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 47","timestamp":"2024-10-26T01:35:46.922Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T01:35:46.924Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T01:35:46.925Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T01:35:46.926Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T01:35:48.394Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T01:35:48.395Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T01:48:02.930Z"}
+{"detallesPago":{"id":"1PK94240PA0475135"},"idHospital":122,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-26T01:48:02.932Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 122, monto: 100","timestamp":"2024-10-26T01:48:02.933Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T01:48:04.689Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T01:48:04.691Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T01:48:04.695Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 48","timestamp":"2024-10-26T01:48:04.700Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T01:48:04.704Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T01:48:04.705Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T01:48:04.707Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T01:48:07.681Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T01:48:07.683Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T01:56:03.696Z"}
+{"detallesPago":{"id":"7B085193RW5885823"},"idHospital":123,"level":"info","message":"Datos recibidos:","monto":250,"timestamp":"2024-10-26T01:56:03.698Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 123, monto: 250","timestamp":"2024-10-26T01:56:03.702Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T01:56:04.618Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T01:56:04.619Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T01:56:04.620Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 49","timestamp":"2024-10-26T01:56:04.627Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T01:56:04.629Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T01:56:04.629Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T01:56:04.630Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T01:56:06.414Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T01:56:06.415Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T02:00:35.668Z"}
+{"detallesPago":{"id":"6F9144941W079542V"},"idHospital":124,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-26T02:00:35.669Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 124, monto: 100","timestamp":"2024-10-26T02:00:35.669Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T02:00:36.580Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T02:00:36.581Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T02:00:36.582Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 50","timestamp":"2024-10-26T02:00:36.587Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T02:00:36.589Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T02:00:36.590Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T02:00:36.591Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T02:00:38.300Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T02:00:38.301Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T04:33:49.970Z"}
+{"detallesPago":{"id":"5J4851369J701043R"},"idHospital":125,"level":"info","message":"Datos recibidos:","monto":250,"timestamp":"2024-10-26T04:33:49.975Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 125, monto: 250","timestamp":"2024-10-26T04:33:49.978Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T04:33:52.716Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T04:33:52.717Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T04:33:52.717Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 51","timestamp":"2024-10-26T04:33:52.734Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T04:33:52.737Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T04:33:52.738Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T04:33:52.738Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T04:33:55.644Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T04:33:55.645Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T04:40:52.226Z"}
+{"detallesPago":{"id":"6CH107087G841742T"},"idHospital":126,"level":"info","message":"Datos recibidos:","monto":250,"timestamp":"2024-10-26T04:40:52.227Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 126, monto: 250","timestamp":"2024-10-26T04:40:52.228Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T04:40:53.315Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T04:40:53.316Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T04:40:53.317Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 52","timestamp":"2024-10-26T04:40:53.324Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T04:40:53.327Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T04:40:53.327Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T04:40:53.328Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T04:40:55.471Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T04:40:55.472Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T04:43:59.437Z"}
+{"detallesPago":{"id":"75766931FM020025X"},"idHospital":127,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-26T04:43:59.437Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 127, monto: 100","timestamp":"2024-10-26T04:43:59.438Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T04:44:00.258Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T04:44:00.259Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T04:44:00.260Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 53","timestamp":"2024-10-26T04:44:00.265Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T04:44:00.268Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T04:44:00.269Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T04:44:00.270Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T04:44:02.116Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T04:44:02.132Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T04:51:24.585Z"}
+{"detallesPago":{"id":"87419150AX684013S"},"idHospital":128,"level":"info","message":"Datos recibidos:","monto":500,"timestamp":"2024-10-26T04:51:24.586Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 128, monto: 500","timestamp":"2024-10-26T04:51:24.586Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T04:51:25.785Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T04:51:25.785Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T04:51:25.786Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 54","timestamp":"2024-10-26T04:51:25.790Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T04:51:25.792Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T04:51:25.792Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T04:51:25.792Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T04:51:28.254Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T04:51:28.255Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T05:01:48.014Z"}
+{"detallesPago":{"id":"8VW82083RE1933405"},"idHospital":129,"level":"info","message":"Datos recibidos:","monto":500,"timestamp":"2024-10-26T05:01:48.018Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 129, monto: 500","timestamp":"2024-10-26T05:01:48.033Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T05:01:51.799Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T05:01:51.801Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T05:01:51.802Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 55","timestamp":"2024-10-26T05:01:51.811Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T05:01:51.817Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T05:01:51.819Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T05:01:51.822Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T05:01:54.927Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T05:01:54.929Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T05:08:24.508Z"}
+{"detallesPago":{"id":"1HG52461MD0815405"},"idHospital":130,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-10-26T05:08:24.512Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 130, monto: 100","timestamp":"2024-10-26T05:08:24.513Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T05:08:26.544Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T05:08:26.546Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T05:08:26.547Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 56","timestamp":"2024-10-26T05:08:26.557Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-10-26T05:08:26.563Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T05:08:26.565Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-10-26T05:08:26.567Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T05:08:28.286Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T05:08:28.288Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-10-26T05:23:57.555Z"}
+{"detallesPago":{"id":"01328346M07320202"},"idHospital":131,"level":"info","message":"Datos recibidos:","monto":500,"timestamp":"2024-10-26T05:23:57.563Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 131, monto: 500","timestamp":"2024-10-26T05:23:57.567Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-10-26T05:23:59.440Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-10-26T05:23:59.441Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-10-26T05:23:59.442Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 57","timestamp":"2024-10-26T05:23:59.450Z"}
+{"level":"info","message":"Correo del hospital obtenido: isac.c.2586@gmail.com","timestamp":"2024-10-26T05:23:59.455Z"}
+{"level":"info","message":"Intentando enviar comprobante a: isac.c.2586@gmail.com","timestamp":"2024-10-26T05:23:59.456Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: isac.c.2586@gmail.com","timestamp":"2024-10-26T05:23:59.458Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-10-26T05:24:02.384Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-10-26T05:24:02.385Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-11-02T01:01:09.891Z"}
+{"detallesPago":{"id":"41F927928U096105A"},"idHospital":1,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-11-02T01:01:09.893Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 1, monto: 100","timestamp":"2024-11-02T01:01:09.894Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-11-02T01:01:11.336Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-11-02T01:01:11.338Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-11-02T01:01:11.338Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 1","timestamp":"2024-11-02T01:01:11.344Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-11-02T01:01:11.347Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-11-02T01:01:11.349Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-11-02T01:01:11.350Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-11-02T01:01:13.215Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-11-02T01:01:13.216Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-11-07T14:29:22.277Z"}
+{"detallesPago":{"id":"3BE87741JS551942T"},"idHospital":2,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-11-07T14:29:22.292Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 2, monto: 100","timestamp":"2024-11-07T14:29:22.294Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-11-07T14:29:23.723Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-11-07T14:29:23.725Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-11-07T14:29:23.726Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 2","timestamp":"2024-11-07T14:29:23.733Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-11-07T14:29:23.738Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-11-07T14:29:23.742Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-11-07T14:29:23.744Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-11-07T14:29:25.463Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-11-07T14:29:25.464Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-11-10T17:23:07.293Z"}
+{"detallesPago":{"id":"8U423933H32801829"},"idHospital":3,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-11-10T17:23:07.298Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 3, monto: 100","timestamp":"2024-11-10T17:23:07.298Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-11-10T17:23:08.296Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-11-10T17:23:08.297Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-11-10T17:23:08.298Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 3","timestamp":"2024-11-10T17:23:08.301Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500@gmail.com","timestamp":"2024-11-10T17:23:08.303Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500@gmail.com","timestamp":"2024-11-10T17:23:08.305Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500@gmail.com","timestamp":"2024-11-10T17:23:08.306Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-11-10T17:23:09.899Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-11-10T17:23:09.899Z"}
+{"level":"info","message":"Iniciando proceso de pago PayPal","timestamp":"2024-11-12T17:49:46.494Z"}
+{"detallesPago":{"id":"33E1479747938812D"},"idHospital":4,"level":"info","message":"Datos recibidos:","monto":100,"timestamp":"2024-11-12T17:49:46.512Z"}
+{"level":"info","message":"Procesando pago para hospital ID: 4, monto: 100","timestamp":"2024-11-12T17:49:46.513Z"}
+{"level":"info","message":"Estado de la orden de PayPal:","timestamp":"2024-11-12T17:49:47.922Z"}
+{"level":"info","message":"La orden ya ha sido capturada previamente","timestamp":"2024-11-12T17:49:47.923Z"}
+{"level":"info","message":"Registrando pago en la base de datos","timestamp":"2024-11-12T17:49:47.924Z"}
+{"level":"info","message":"Pago registrado en la base de datos, ID: 4","timestamp":"2024-11-12T17:49:47.932Z"}
+{"level":"info","message":"Correo del hospital obtenido: piter500monzon@gmail.com","timestamp":"2024-11-12T17:49:47.936Z"}
+{"level":"info","message":"Intentando enviar comprobante a: piter500monzon@gmail.com","timestamp":"2024-11-12T17:49:47.937Z"}
+{"level":"info","message":"Iniciando envío de comprobante a: piter500monzon@gmail.com","timestamp":"2024-11-12T17:49:47.946Z"}
+{"level":"info","message":"Correo enviado exitosamente:","timestamp":"2024-11-12T17:49:49.746Z"}
+{"level":"info","message":"Comprobante enviado exitosamente","timestamp":"2024-11-12T17:49:49.747Z"}
