@@ -35,14 +35,16 @@ const passport_1 = __importDefault(require("passport"));
 const passport_github2_1 = require("passport-github2");
 const express_session_1 = __importDefault(require("express-session"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const passport_twitter_1 = require("passport-twitter");
 const paypal = __importStar(require("@paypal/checkout-server-sdk"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const winston_1 = __importDefault(require("winston"));
+const node_fetch_1 = __importDefault(require("node-fetch"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 // Configuración de CORS
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:4200',
+    origin: 'https://citasmedicas4.netlify.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -65,11 +67,127 @@ const pool = promise_1.default.createPool({
     port: parseInt(process.env.DB_PORT || '3306'),
     connectionLimit: 10
 });
+// Ejemplo de ruta para verificar el funcionamiento de la API
+app.get('/', (_req, res) => {
+    res.send('API de Citas Médicas con APIs funcionando correctamente!!!');
+});
 // Configuración de PayPal
 const PAYPAL_CLIENT_ID = 'AUJbTRPDtHgHEMJ4Dvt6Rc9wTyfB2pWWxc1KYz3EiwdgwcZDoS5JPi2L_UmrtjmYL5K9OBnei_Mo9365';
 const PAYPAL_CLIENT_SECRET = 'ELnZHD9kkgGbdOpv3lsYYOxLg7dejIG4sOiwYnBW0aTuTuPQHKFFJya92qLyV0nOFlGDspVkl60S06S9';
 const environment = new paypal.core.SandboxEnvironment(PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET);
 const client = new paypal.core.PayPalHttpClient(environment);
+//Para las notificaciones de facebook
+// Configuración del transporter de nodemailer
+const transporter = nodemailer_1.default.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+//TODO LO QUE SIGUE ES PARA PAYPAL
+const logger = winston_1.default.createLogger({
+    level: 'info',
+    format: winston_1.default.format.combine(winston_1.default.format.timestamp(), winston_1.default.format.json()),
+    transports: [
+        new winston_1.default.transports.Console(),
+        new winston_1.default.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston_1.default.transports.File({ filename: 'combined.log' })
+    ]
+});
+// Función para enviar comprobante de pago por correo
+async function enviarComprobantePago(emailHospital, detallesPago, idTransaccion) {
+    logger.info(`Iniciando envío de comprobante a: ${emailHospital}`);
+    try {
+        const info = await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: emailHospital,
+            subject: 'Comprobante de Pago - Citas Médicas',
+            html: `
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Comprobante de Pago - Citas Médicas</title>
+        </head>
+        <body style="font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; margin: 0; padding: 0;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            <!-- Encabezado -->
+            <div style="text-align: center; margin-bottom: 30px; padding: 20px;">
+              <h1 style="color: #1a73e8; margin: 0; font-size: 28px; font-weight: 600;">Citas Médicas</h1>
+            </div>
+
+            <!-- Contenedor Principal -->
+            <div style="background-color: white; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;">
+              <!-- Mensaje de éxito -->
+              <div style="text-align: center; margin-bottom: 30px;">
+                <div style="background-color: #e8f5e9; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
+                  <span style="color: #1DB954; font-size: 30px;">✓</span>
+                </div>
+                <h2 style="color: #1DB954; margin: 0; font-size: 22px;">¡Pago Exitoso!</h2>
+                <p style="color: #5f6368; margin-top: 10px;">Gracias por su pago. A continuación, encontrará los detalles de su transacción.</p>
+              </div>
+
+              <!-- Detalles de la transacción -->
+              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+                <table style="width: 100%; border-collapse: separate; border-spacing: 0 12px;">
+                  <tr>
+                    <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">ID de Transacción</td>
+                    <td style="text-align: right; color: #1a73e8; font-weight: 600;">${idTransaccion}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">Monto Pagado</td>
+                    <td style="text-align: right; color: #1DB954; font-weight: 600; font-size: 20px;">$${detallesPago.purchase_units[0].amount.value}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">Fecha y Hora</td>
+                    <td style="text-align: right; color: #5f6368;">${new Date().toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">Método de Pago</td>
+                    <td style="text-align: right;">
+                      <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="PayPal" style="height: 20px; vertical-align: middle;"> PayPal
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Información de contacto -->
+              <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+                <h3 style="color: #1a73e8; margin-bottom: 15px; font-size: 18px;">¿Necesita ayuda?</h3>
+                <p style="color: #5f6368; margin-bottom: 15px;">Estamos aquí para ayudarle. Contáctenos a través de:</p>
+                <div style="display: inline-block; text-align: center;">
+                  <div style="margin-bottom: 10px;">
+                    <span style="color: #1a73e8;">📧</span>
+                    <a href="mailto:soporte@citasmedicas.com" style="color: #1a73e8; text-decoration: none;">soporte@citasmedicas.com</a>
+                  </div>
+                  <div>
+                    <span style="color: #1a73e8;">📞</span>
+                    <a href="tel:+524151775265" style="color: #1a73e8; text-decoration: none;">+52 415 177 52 65</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pie de página -->
+            <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+              <p style="color: #5f6368; font-size: 12px; margin-bottom: 10px;">Este es un correo electrónico automático, por favor no responda a este mensaje.</p>
+              <p style="color: #5f6368; font-size: 12px;">&copy; ${new Date().getFullYear()} Citas Médicas. Todos los derechos reservados.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+        });
+        logger.info('Correo enviado exitosamente:', info.messageId);
+        return info;
+    }
+    catch (error) {
+        logger.error('Error al enviar el correo:', error);
+        throw error;
+    }
+}
 app.post('/api/pagos', async (req, res) => {
     try {
         const { numeroTarjeta, nombreTitular, fechaExpiracion, codigoSeguridad, monto, idHospital, fechaPago } = req.body;
@@ -83,140 +201,266 @@ app.post('/api/pagos', async (req, res) => {
     }
 });
 app.post('/api/pagos-paypal', async (req, res) => {
+    var _a;
+    logger.info('Iniciando proceso de pago PayPal');
+    logger.info('Datos recibidos:', req.body);
     try {
-        console.log('Datos recibidos:', req.body);
         const { idHospital, monto, detallesPago } = req.body;
         if (!detallesPago || !detallesPago.id || !idHospital || !monto) {
+            logger.warn('Faltan datos requeridos para el pago PayPal');
             return res.status(400).json({ message: 'Faltan datos requeridos' });
         }
-        const request = new paypal.orders.OrdersCaptureRequest(detallesPago.id);
-        console.log('Ejecutando solicitud a PayPal');
-        const response = await client.execute(request);
-        console.log('Respuesta de PayPal:', JSON.stringify(response, null, 2));
-        if (response.result.status !== 'COMPLETED') {
-            return res.status(400).json({ message: 'La transacción de PayPal no fue completada' });
+        logger.info(`Procesando pago para hospital ID: ${idHospital}, monto: ${monto}`);
+        // Verificar si el pago ya está registrado en la base de datos
+        const [existingPayment] = await pool.execute('SELECT * FROM pagos WHERE idHospital = ? AND transactionID = ?', [idHospital, detallesPago.id]);
+        if (existingPayment.length > 0) {
+            logger.info('El pago ya está registrado en la base de datos');
+            return res.json({
+                message: 'El pago ya ha sido procesado anteriormente',
+                transactionID: detallesPago.id,
+            });
         }
-        const montoPagado = response.result.purchase_units[0].payments.captures[0].amount.value;
-        console.log('Insertando en la base de datos');
-        const [result] = await pool.execute('INSERT INTO pagos (numeroTarjeta, nombreTitular, fechaExpiracion, codigoSeguridad, monto, idHospital, fechaPago) VALUES (?, ?, ?, ?, ?, ?, ?)', ['PayPal', detallesPago.payer.name.given_name + ' ' + detallesPago.payer.name.surname, 'N/A', 'N/A', montoPagado, idHospital, new Date()]);
-        console.log('Resultado de la inserción:', result);
+        // Obtener detalles de la orden de PayPal
+        const getOrderRequest = new paypal.orders.OrdersGetRequest(detallesPago.id);
+        const orderDetails = await client.execute(getOrderRequest);
+        logger.info('Estado de la orden de PayPal:', orderDetails.result.status);
+        let captureResponse;
+        if (orderDetails.result.status !== 'COMPLETED') {
+            // Si la orden no ha sido capturada, proceder con la captura
+            const captureRequest = new paypal.orders.OrdersCaptureRequest(detallesPago.id);
+            captureResponse = await client.execute(captureRequest);
+            logger.info('Captura de pago completada:', captureResponse.result.status);
+            if (captureResponse.result.status !== 'COMPLETED') {
+                logger.error('La transacción de PayPal no fue completada:', captureResponse.result);
+                return res.status(400).json({ message: 'La transacción de PayPal no fue completada' });
+            }
+        }
+        else {
+            captureResponse = orderDetails;
+            logger.info('La orden ya ha sido capturada previamente');
+        }
+        const montoPagado = captureResponse.result.purchase_units[0].payments.captures[0].amount.value;
+        // Registro de pago en la base de datos
+        logger.info('Registrando pago en la base de datos');
+        const [result] = await pool.execute('INSERT INTO pagos (numeroTarjeta, nombreTitular, fechaExpiracion, codigoSeguridad, monto, idHospital, fechaPago, transactionID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', ['PayPal', `${captureResponse.result.payer.name.given_name} ${captureResponse.result.payer.name.surname}`, 'N/A', 'N/A', montoPagado, idHospital, new Date(), detallesPago.id]);
+        logger.info(`Pago registrado en la base de datos, ID: ${result.insertId}`);
+        // Obtener correo del hospital
+        const [hospitalRows] = await pool.execute('SELECT correo FROM hospital WHERE idHospital = ?', [idHospital]);
+        const emailHospital = (_a = hospitalRows[0]) === null || _a === void 0 ? void 0 : _a.correo;
+        logger.info(`Correo del hospital obtenido: ${emailHospital}`);
+        let comprobante_enviado = false;
+        if (emailHospital) {
+            try {
+                logger.info(`Intentando enviar comprobante a: ${emailHospital}`);
+                await enviarComprobantePago(emailHospital, captureResponse.result, detallesPago.id);
+                logger.info('Comprobante enviado exitosamente');
+                comprobante_enviado = true;
+            }
+            catch (emailError) {
+                logger.error('Error al enviar el comprobante:', emailError);
+                // No lanzamos el error para no interrumpir el proceso, pero lo registramos
+            }
+        }
+        else {
+            logger.warn(`No se encontró correo para el hospital con ID: ${idHospital}`);
+        }
         res.json({
             message: 'Pago de PayPal procesado con éxito',
-            transactionID: response.result.id,
-            idPago: result.insertId
+            transactionID: captureResponse.result.id,
+            idPago: result.insertId,
+            comprobante_enviado,
         });
     }
     catch (error) {
-        console.error('Error detallado:', error);
-        let errorMessage = 'Error desconocido al procesar el pago de PayPal';
-        if (error instanceof Error) {
-            errorMessage = error.message;
-            console.error('Stack trace:', error.stack);
-        }
-        if (error) {
-            console.error('Respuesta de error de PayPal:', error.response);
-        }
-        res.status(500).json({ message: 'Error al procesar el pago de PayPal', error: errorMessage });
+        logger.error('Error al procesar el pago de PayPal:', error);
+        res.status(500).json({ message: 'Error al procesar el pago', error: error instanceof Error ? error.message : String(error) });
     }
 });
 app.post('/api/hospitales', async (req, res) => {
     try {
-        const { nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto } = req.body;
-        if (!nombreHospital || !direccion || !estado || !municipio || !telefono || !nomRepresHospital || !rfcHospital || !monto) {
+        const { nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto, correo } = req.body;
+        if (!nombreHospital || !direccion || !estado || !municipio || !telefono || !nomRepresHospital || !rfcHospital || !monto || !correo) {
             return res.status(400).json({ message: 'Faltan campos requeridos' });
         }
-        const [result] = await pool.query('INSERT INTO hospital (nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto]);
-        // @ts-ignore
+        const [result] = await pool.query('INSERT INTO hospital (nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto, correo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto, correo]);
+        // Enviar correo al hospital recién registrado
+        //AQUI YA LO DE NOTAS
         res.status(201).json({ message: 'Hospital registrado con éxito', idHospital: result.insertId });
     }
     catch (error) {
         console.error('Error al guardar el hospital:', error);
-        res.status(500).json({ message: 'Error al guardar el hospital' });
+        res.status(500).json({ message: 'Error al guardar el hospital', error: error.message });
     }
 });
-// Configuración de la estrategia de Twitter
-passport_1.default.use(new passport_twitter_1.Strategy({
-    consumerKey: process.env.TWITTER_API_KEY,
-    consumerSecret: process.env.TWITTER_API_SECRET,
-    callbackURL: process.env.TWITTER_CALLBACK_URL || "http://localhost:3000/api/auth/twitter/callback",
-    includeEmail: true // Para obtener el correo del usuario, si está disponible
-}, async function (token, tokenSecret, profile, done) {
+// LOGIN DE FACEBOOK
+app.post('/api/facebook-login', async (req, res) => {
     try {
-        console.log('Profile from Twitter:', JSON.stringify(profile, null, 2));
-        let email = profile.emails && profile.emails[0] ? profile.emails[0].value : `${profile.id}@twitter.com`;
-        let name = profile.displayName || profile.username || 'Usuario de Twitter';
-        // Lógica para encontrar o crear el usuario en la base de datos
-        const [rows] = await pool.execute('SELECT * FROM usuarios WHERE twitter_id = ?', [profile.id]);
-        if (rows.length > 0) {
-            console.log('Existing user found:', rows[0]);
-            await pool.execute('UPDATE usuarios SET nombre = ?, correo = ? WHERE twitter_id = ?', [name, email, profile.id]);
-            done(null, rows[0]);
+        const { email, name, id } = req.body;
+        // Buscar si el usuario ya existe
+        const [existingUsers] = await pool.execute('SELECT * FROM usuarios WHERE correo = ?', [email]);
+        let userId;
+        if (existingUsers.length > 0) {
+            // El usuario ya existe, actualiza sus datos
+            userId = existingUsers[0].id;
+            await pool.execute('UPDATE usuarios SET nombre = ?, google_id = ? WHERE id = ?', [name, id, userId]);
         }
         else {
-            console.log('Creating new user');
-            const [result] = await pool.execute('INSERT INTO usuarios (nombre, apePaterno, apeMaterno, correo, twitter_id) VALUES (?, ?, ?, ?, ?)', [name, '', '', email, profile.id]);
-            const [newUser] = await pool.execute('SELECT * FROM usuarios WHERE id = ?', [result.insertId]);
-            console.log('New user created:', newUser[0]);
-            done(null, newUser[0]);
+            // El usuario no existe, créalo
+            const [result] = await pool.execute('INSERT INTO usuarios (nombre, correo, google_id) VALUES (?, ?, ?)', [name, email, id]);
+            userId = result.insertId;
         }
+        // Registrar el intento de inicio de sesión
+        await pool.execute('INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)', [userId, true]);
+        // Enviar notificación por correo
+        let emailSent = false;
+        try {
+            await sendLoginNotification(email);
+            emailSent = true;
+        }
+        catch (emailError) {
+            console.error('Error al enviar email de notificación:', emailError);
+        }
+        // Respuesta exitosa con información del usuario
+        res.json({
+            isAuthenticated: true,
+            userId: userId.toString(),
+            userName: name,
+            emailSent: emailSent // Indica si se envió el correo
+        });
     }
     catch (error) {
-        console.error('Error in Twitter strategy:', error);
-        done(error);
+        console.error('Error en el login con Facebook:', error);
+        // Manejar errores y responder con un mensaje adecuado
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
-}));
-// Rutas de autenticación para Twitter
-app.get('/api/auth/twitter', passport_1.default.authenticate('twitter'));
-app.get('/api/auth/twitter/callback', passport_1.default.authenticate('twitter', { failureRedirect: '/login' }), function (req, res) {
-    const user = req.user; // Aquí obtienes el usuario autenticado
-    // Asegúrate de que el usuario no sea undefined
-    if (!user) {
-        console.error("User is undefined");
-        return res.redirect('/login'); // Redirige en caso de error
-    }
-    const token = jsonwebtoken_1.default.sign({
-        id: user.id,
-        nombre: user.nombre,
-        correo: user.correo,
-        twitter_id: user.twitter_id
-    }, process.env.JWT_SECRET || 'tu_secreto_jwt', { expiresIn: '1h' });
-    // Redirige con el token
-    res.redirect(`http://localhost:4200/auth-callback?token=${token}`);
 });
-// Ruta para verificar si el usuario de Twitter existe
-app.get('/is-twitter-user', async (req, res) => {
-    const twitterId = req.query.twitter_id;
-    if (!twitterId) {
-        return res.status(400).json({ message: 'Twitter ID is required' });
-    }
+// Función para enviar correo de notificación de inicio de sesión
+async function sendLoginNotification(userEmail) {
     try {
-        const query = 'SELECT * FROM users WHERE twitter_id = ?';
-        const [rows] = await pool.query(query, [twitterId]);
-        if (Array.isArray(rows) && rows.length > 0) {
-            const user = rows[0];
-            res.json({
-                message: 'Twitter user found',
-                user: {
-                    id: user.id,
-                    nombre: user.nombre,
-                    twitter_id: user.twitter_id
-                }
-            });
-        }
-        else {
-            res.status(404).json({ message: 'Twitter user not found' });
-        }
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: userEmail,
+            subject: 'Inicio de sesión - Citas Médicas',
+            html: `
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Inicio de sesión - Citas Médicas</title>
+        </head>
+        <body style="font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; margin: 0; padding: 0;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            <!-- Header con efecto gradiente -->
+            <div style="text-align: center; background: linear-gradient(135deg, #1a73e8, #0056b3); padding: 30px; border-radius: 12px; margin-bottom: 30px;">
+              <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 600;">Citas Médicas</h1>
+              <p style="color: rgba(255,255,255,0.9); margin-top: 10px; font-size: 16px;">Sistema de Gestión Médica</p>
+            </div>
+
+            <!-- Contenedor Principal -->
+            <div style="background-color: white; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;">
+              <!-- Ícono de notificación -->
+              <div style="text-align: center; margin-bottom: 30px;">
+                <div style="background-color: #e8f0fe; border-radius: 50%; width: 70px; height: 70px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
+                  <span style="font-size: 30px;">🔐</span>
+                </div>
+                <h2 style="color: #1a73e8; margin: 0; font-size: 24px;">Nuevo Inicio de Sesión Detectado</h2>
+                <p style="color: #5f6368; margin-top: 10px;">Se ha registrado un nuevo acceso a tu cuenta.</p>
+              </div>
+
+              <!-- Mensaje principal -->
+              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 25px;">
+                <p style="color: #202124; margin: 0 0 15px 0; font-size: 16px;">
+                  Hemos detectado un nuevo inicio de sesión en tu cuenta. Si fuiste tú, puedes ignorar este mensaje. Si no reconoces esta actividad, por favor toma acción inmediata.
+                </p>
+                <div style="text-align: center;">
+                  <p style="color: #5f6368; margin: 5px 0;">
+                    <strong>Fecha y Hora:</strong> ${new Date().toLocaleString()}
+                  </p>
+                </div>
+              </div>
+
+              <!-- Botón de contacto -->
+              <div style="text-align: center; margin-top: 30px;">
+                <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px;">
+                  <h3 style="color: #1a73e8; margin: 0 0 15px 0; font-size: 18px;">¿Necesitas ayuda?</h3>
+                  <p style="color: #5f6368; margin-bottom: 20px;">Nuestro equipo de soporte está disponible 24/7</p>
+                  <div style="margin-bottom: 10px;">
+                    <a href="tel:+524151775265" style="color: #1a73e8; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                      📞 +52 415 177 52 65
+                    </a>
+                  </div>
+                  <div>
+                    <a href="mailto:soporte@citasmedicas.com" style="color: #1a73e8; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                      📧 soporte@citasmedicas.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+              <p style="color: #5f6368; font-size: 12px; margin-bottom: 10px;">
+                Este es un correo electrónico automático de seguridad. Por favor, no responda a este mensaje.
+              </p>
+              <p style="color: #5f6368; font-size: 12px;">
+                &copy; ${new Date().getFullYear()} Citas Médicas. Todos los derechos reservados.
+              </p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
+        });
+        console.log('Email de notificación enviado');
     }
     catch (error) {
-        console.error('Error fetching Twitter user:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        console.error('Error al enviar email:', error);
+    }
+}
+//Para la api de base de datos de medicamnetos 
+// Ruta para buscar medicamento
+app.get('/api/drugs/search/:name', async (req, res) => {
+    try {
+        const drugName = encodeURIComponent(req.params.name);
+        const url = `https://api.fda.gov/drug/label.json?api_key=${process.env.FDA_API_KEY}&search=brand_name:"${drugName}"&limit=1`;
+        console.log('URL de búsqueda:', url); // Para depuración
+        const response = await (0, node_fetch_1.default)(url);
+        const data = await response.json();
+        res.json(data);
+    }
+    catch (error) {
+        logger.error('Error buscando medicamento:', error);
+        res.status(500).json({
+            message: 'Error al buscar medicamento',
+            error: error.message
+        });
+    }
+});
+// Ruta para obtener efectos adversos
+app.get('/api/drugs/adverse-effects/:name', async (req, res) => {
+    try {
+        const drugName = encodeURIComponent(req.params.name);
+        const url = `https://api.fda.gov/drug/event.json?api_key=${process.env.FDA_API_KEY}&search=patient.drug.openfda.brand_name:"${drugName}"&limit=10`;
+        console.log('URL de búsqueda efectos adversos:', url); // Para depuración
+        const response = await (0, node_fetch_1.default)(url);
+        const data = await response.json();
+        res.json(data);
+    }
+    catch (error) {
+        logger.error('Error obteniendo efectos adversos:', error);
+        res.status(500).json({
+            message: 'Error al obtener efectos adversos',
+            error: error.message
+        });
     }
 });
 // Configuración de la estrategia de GitHub
 passport_1.default.use(new passport_github2_1.Strategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.GITHUB_CALLBACK_URL || "http://localhost:3000/api/auth/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL || "https://localhost:3000/api/auth/github/callback"
 }, async function (accessToken, refreshToken, profile, done) {
     try {
         console.log('Profile from GitHub:', JSON.stringify(profile, null, 2));
@@ -258,7 +502,7 @@ app.get('/api/auth/github/callback', passport_1.default.authenticate('github', {
         // Codifica el nombre de usuario para la URL
         const encodedUserName = encodeURIComponent(user.nombre);
         // Redirige a la página de citas con userId y userName
-        res.redirect(`http://localhost:4200/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
+        res.redirect(`https://citasmedicas4.netlify.app/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
     }
     catch (error) {
         console.error('Error in GitHub callback:', error);
@@ -287,7 +531,7 @@ app.get('/api/auth/github/callback', passport_1.default.authenticate('github', {
         correo: user.correo,
         github_id: user.github_id
     }, process.env.JWT_SECRET || 'tu_secreto_jwt', { expiresIn: '1h' });
-    res.redirect(`http://localhost:4200/auth-callback?token=${token}`);
+    res.redirect(`https://citasmedicas4.netlify.app/auth-callback?token=${token}`);
 });
 app.get('/api/user', authenticateToken, async (req, res) => {
     try {
@@ -455,6 +699,8 @@ app.post('/api/login', async (req, res) => {
             const isMatch = await bcrypt_1.default.compare(contrase, user.contrase);
             await pool.execute('INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)', [user.id, isMatch]);
             if (isMatch) {
+                // Enviar notificación por correo
+                await sendLoginNotification(correo);
                 res.json({
                     isAuthenticated: true,
                     userId: user.id.toString(),
@@ -800,187 +1046,10 @@ app.delete('/api/historial-medico/:idRegistro', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-// Ruta para procesar y guardar el pago
-app.post('/api/registrar-pagos', async (req, res) => {
-    try {
-        const { numeroTarjeta, nombreTitular, fechaExpiracion, codigoSeguridad, monto, idHospital } = req.body;
-        // Validar datos del pago
-        if (!numeroTarjeta || !nombreTitular || !fechaExpiracion || !codigoSeguridad || !monto || !idHospital) {
-            return res.status(400).json({ error: 'Datos de pago incompletos' });
-        }
-        const [result] = await pool.execute('INSERT INTO pagos (numeroTarjeta, nombreTitular, fechaExpiracion, codigoSeguridad, monto, idHospital) VALUES (?, ?, ?, ?, ?, ?)', [numeroTarjeta, nombreTitular, fechaExpiracion, codigoSeguridad, monto, idHospital]);
-        if (result.insertId) {
-            return res.status(201).json({ message: 'Pago registrado exitosamente', idPago: result.insertId });
-        }
-        else {
-            return res.status(500).json({ error: 'Error al registrar el pago' });
-        }
-    }
-    catch (error) {
-        console.error('Error al procesar el pago:', error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-// Ruta para obtener todos los pagos
-// Ruta para obtener un pago por su ID
-app.get('/api/pagos/:idPago', async (req, res) => {
-    try {
-        const { idPago } = req.params;
-        const [rows] = await pool.execute('SELECT * FROM pagos WHERE idPago = ?', [idPago]);
-        if (rows.length > 0) {
-            return res.status(200).json(rows[0]);
-        }
-        else {
-            return res.status(404).json({ error: 'Pago no encontrado' });
-        }
-    }
-    catch (error) {
-        console.error('Error al obtener el pago:', error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-// Ruta para actualizar un pago por su ID
-app.put('/api/pagos/:idPago', async (req, res) => {
-    try {
-        const { idPago } = req.params;
-        const { numeroTarjeta, nombreTitular, fechaExpiracion, codigoSeguridad, monto } = req.body;
-        // Validar datos del pago
-        if (!numeroTarjeta || !nombreTitular || !fechaExpiracion || !codigoSeguridad || !monto) {
-            return res.status(400).json({ error: 'Datos de pago incompletos' });
-        }
-        const [result] = await pool.execute('UPDATE pagos SET numeroTarjeta = ?, nombreTitular = ?, fechaExpiracion = ?, codigoSeguridad = ?, monto = ? WHERE idPago = ?', [numeroTarjeta, nombreTitular, fechaExpiracion, codigoSeguridad, monto, idPago]);
-        if (result.affectedRows > 0) {
-            return res.status(200).json({ message: 'Pago actualizado exitosamente' });
-        }
-        else {
-            return res.status(404).json({ error: 'Pago no encontrado' });
-        }
-    }
-    catch (error) {
-        console.error('Error al actualizar el pago:', error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-// Ruta para eliminar un pago por su ID
-app.delete('/api/pagos/:idPago', async (req, res) => {
-    try {
-        const { idPago } = req.params;
-        const [result] = await pool.execute('DELETE FROM pagos WHERE idPago = ?', [idPago]);
-        if (result.affectedRows > 0) {
-            return res.status(200).json({ message: 'Pago eliminado exitosamente' });
-        }
-        else {
-            return res.status(404).json({ error: 'Pago no encontrado' });
-        }
-    }
-    catch (error) {
-        console.error('Error al eliminar el pago:', error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-//------------------------------------------
-// Rutas para hospitales
-app.post('/api/registrar-hospital', async (req, res) => {
-    try {
-        const { nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto } = req.body;
-        if (!nombreHospital || !direccion || !estado || !municipio ||
-            !numSucursal || !telefono || !nomRepresHospital ||
-            !rfcHospital || monto === undefined) {
-            return res.status(400).json({ error: 'Datos del hospital incompletos' });
-        }
-        const [result] = await pool.query('INSERT INTO hospital (nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto]);
-        if (result.insertId) {
-            return res.status(201).json({
-                message: 'Hospital registrado exitosamente',
-                idHospital: result.insertId
-            });
-        }
-        else {
-            return res.status(500).json({ error: 'Error al registrar el hospital' });
-        }
-    }
-    catch (error) {
-        console.error('Error al procesar el registro del hospital:', error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-// Obtener un hospital por ID
-app.get('/api/hospital/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM hospital WHERE idHospital = ?', [id]);
-        if (rows.length > 0) {
-            return res.json(rows[0]);
-        }
-        else {
-            return res.status(404).json({ error: 'Hospital no encontrado' });
-        }
-    }
-    catch (error) {
-        console.error('Error al obtener el hospital:', error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-// Actualizar un hospital por ID
-app.put('/api/hospital/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto } = req.body;
-        if (!nombreHospital || !direccion || !estado || !municipio || !numSucursal || !telefono || !nomRepresHospital || !rfcHospital || !monto) {
-            return res.status(400).json({ error: 'Datos incompletos para actualizar el hospital' });
-        }
-        const [result] = await pool.query(`UPDATE hospital SET nombreHospital = ?, direccion = ?, estado = ?, municipio = ?, numSucursal = ?, telefono = ?, nomRepresHospital = ?, rfcHospital = ?, monto = ? WHERE idHospital = ?`, [nombreHospital, direccion, estado, municipio, numSucursal, telefono, nomRepresHospital, rfcHospital, monto, id]);
-        if (result.affectedRows > 0) {
-            return res.json({ message: 'Hospital actualizado exitosamente' });
-        }
-        else {
-            return res.status(404).json({ error: 'Hospital no encontrado' });
-        }
-    }
-    catch (error) {
-        console.error('Error al actualizar el hospital:', error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-// Eliminar un hospital por ID
-app.delete('/api/hospital/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const [result] = await pool.query('DELETE FROM hospital WHERE idHospital = ?', [id]);
-        if (result.affectedRows > 0) {
-            return res.json({ message: 'Hospital eliminado exitosamente' });
-        }
-        else {
-            return res.status(404).json({ error: 'Hospital no encontrado' });
-        }
-    }
-    catch (error) {
-        console.error('Error al eliminar el hospital:', error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-app.get('/api/hospital', async (_req, res) => {
-    try {
-        const [rows] = await pool.execute('SELECT * FROM hospital');
-        if (rows.length > 0) {
-            return res.status(200).json(rows);
-        }
-        else {
-            return res.status(404).json({ message: 'No se encontraron hospitales' });
-        }
-    }
-    catch (error) {
-        console.error('Error al obtener los pagos:', error);
-        return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
 // Iniciar el servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en puerto ${PORT}`);
+    console.log(`Funcionando este rollo,  corriendo en puerto ${PORT}`);
 });
 exports.default = app;
-function generateJWT(user) {
-    throw new Error('Function not implemented.');
-}
 //# sourceMappingURL=server.js.map
