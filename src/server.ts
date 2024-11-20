@@ -1294,6 +1294,7 @@ app.listen(PORT, () => {
   console.log(`Funcionando este rollo,  corriendo en puerto ${PORT}`);
 });
 
+module.exports = app;
 export default app;
 
 

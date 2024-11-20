@@ -1051,5 +1051,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Funcionando este rollo,  corriendo en puerto ${PORT}`);
 });
+module.exports = app;
 exports.default = app;
 //# sourceMappingURL=server.js.map
