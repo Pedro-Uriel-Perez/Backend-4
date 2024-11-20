@@ -67,6 +67,21 @@ const pool = promise_1.default.createPool({
     port: parseInt(process.env.DB_PORT || '3306'),
     connectionLimit: 10
 });
+// En tu server.ts antes de compilar
+app.use((req, res, next) => {
+    console.log('Request Path:', req.path);
+    console.log('Request Method:', req.method);
+    console.log('Request Headers:', req.headers);
+    next();
+});
+// Manejo de errores global
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({
+        message: 'Error interno del servidor',
+        error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+});
 // Ejemplo de ruta para verificar el funcionamiento de la API
 app.get('/', (_req, res) => {
     res.send('API de Citas Médicas con APIs funcionando correctamente!!!');
@@ -1047,10 +1062,5 @@ app.delete('/api/historial-medico/:idRegistro', async (req, res) => {
     }
 });
 // Iniciar el servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Funcionando este rollo,  corriendo en puerto ${PORT}`);
-});
-module.exports = app;
 exports.default = app;
 //# sourceMappingURL=server.js.map
