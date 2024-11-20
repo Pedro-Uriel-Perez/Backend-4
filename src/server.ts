@@ -1,6 +1,7 @@
   import express from 'express';
   import mysql, { OkPacket, Pool, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
-  import bcrypt from 'bcrypt';
+  import bcrypt from 'bcryptjs';
+  
   import cors from 'cors';
   import dotenv from 'dotenv';
   import { Request, Response } from 'express';
@@ -51,7 +52,7 @@
     port: parseInt(process.env.DB_PORT || '3306'),
     connectionLimit: 10
   });
-  
+
 
   // En tu server.ts antes de compilar
 app.use((req, res, next) => {
