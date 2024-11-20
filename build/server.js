@@ -28,7 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const promise_1 = __importDefault(require("mysql2/promise"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcrypt = __importStar(require("bcryptjs"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const passport_1 = __importDefault(require("passport"));
@@ -622,7 +622,7 @@ app.post('/api/register', async (req, res) => {
             return res.status(409).json({ error: 'El correo electrónico ya está registrado' });
         }
         console.log('Hasheando contraseña...');
-        const hashedPassword = await bcrypt_1.default.hash(contrase, 10);
+        const hashedPassword = await bcrypt.hash(contrase, 10);
         // Preparar la consulta SQL y los valores
         let sql = 'INSERT INTO usuarios (nombre, apePaterno, apeMaterno, correo, contrase';
         const values = [nombre, apePaterno, apeMaterno, correo, hashedPassword];
@@ -711,7 +711,7 @@ app.post('/api/login', async (req, res) => {
         const [rows] = await pool.execute('SELECT * FROM usuarios WHERE correo = ?', [correo]);
         if (rows.length > 0) {
             const user = rows[0];
-            const isMatch = await bcrypt_1.default.compare(contrase, user.contrase);
+            const isMatch = await bcrypt.compare(contrase, user.contrase);
             await pool.execute('INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)', [user.id, isMatch]);
             if (isMatch) {
                 // Enviar notificación por correo

@@ -1,6 +1,7 @@
   import express from 'express';
   import mysql, { OkPacket, Pool, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
-  import bcrypt from 'bcryptjs';
+  import * as bcrypt from 'bcryptjs';
+
   
   import cors from 'cors';
   import dotenv from 'dotenv';
