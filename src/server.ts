@@ -540,7 +540,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req: Request, res: Response) 
   passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-    callbackURL: process.env.GITHUB_CALLBACK_URL || "https://localhost:3000/api/auth/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/github/callback"
   },
   async function(accessToken: string, refreshToken: string, profile: any, done: (error: any, user?: any) => void) {
     try {

@@ -475,7 +475,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req, res) => {
 passport_1.default.use(new passport_github2_1.Strategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.GITHUB_CALLBACK_URL || "https://localhost:3000/api/auth/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/github/callback"
 }, async function (accessToken, refreshToken, profile, done) {
     try {
         console.log('Profile from GitHub:', JSON.stringify(profile, null, 2));
