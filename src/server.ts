@@ -54,7 +54,7 @@ import { Strategy as SpotifyStrategy } from 'passport-spotify';
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: parseInt(process.env.DB_PORT || '3306'),
-    connectionLimit: 15
+    connectionLimit: 5
   });
 
   // En tu server.ts antes de compilar
