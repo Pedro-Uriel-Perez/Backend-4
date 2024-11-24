@@ -15,6 +15,9 @@
   import winston from 'winston';
   import fetch from 'node-fetch';
 
+import { Strategy as SpotifyStrategy } from 'passport-spotify';
+
+
 
 
 
@@ -1307,6 +1310,80 @@ app.delete('/api/historial-medico/:idRegistro', async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor'});
 }
 });
+
+
+passport.use(new SpotifyStrategy({
+  clientID: process.env.SPOTIFY_CLIENT_ID!,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
+  callbackURL: "https://backend-4-seven.vercel.app/api/auth/spotify/callback"
+},
+async function(accessToken: string, refreshToken: string, profile: any, done: any) {
+  try {
+    console.log('Profile from Spotify:', JSON.stringify(profile, null, 2));
+
+    // Guardar tokens de Spotify
+    const [rows] = await pool.execute<RowDataPacket[]>('SELECT * FROM usuarios WHERE id = ?', [profile.id]);
+    if (rows.length > 0) {
+      await pool.execute(
+        'UPDATE usuarios SET spotify_token = ?, spotify_refresh_token = ? WHERE id = ?',
+        [accessToken, refreshToken, profile.id]
+      );
+      done(null, { ...rows[0], spotify_token: accessToken });
+    } else {
+      done(null, { spotify_token: accessToken });
+    }
+  } catch (error) {
+    console.error('Error in Spotify strategy:', error);
+    done(error);
+  }
+}
+));
+
+// Rutas de Spotify
+app.get('/api/auth/spotify',
+passport.authenticate('spotify', { 
+  scope: [
+    'streaming',
+    'user-read-email',
+    'user-read-private',
+    'user-read-playback-state',
+    'user-modify-playback-state',
+    'user-read-currently-playing',
+    'app-remote-control'
+  ]
+})
+);
+
+app.get('/api/auth/spotify/callback',
+passport.authenticate('spotify', { failureRedirect: '/login' }),
+function(req: any, res: Response) {
+  try {
+    const user = req.user;
+    if (!user) {
+      console.error('No user data after Spotify authentication');
+      return res.redirect('/login?error=authentication_failed');
+    }
+
+    // Crear un token que incluya los datos de Spotify
+    const token = jwt.sign(
+      {
+        id: user.id,
+        nombre: user.nombre,
+        spotify_token: user.spotify_token
+      },
+      process.env.JWT_SECRET || 'tu_secreto_jwt',
+      { expiresIn: '1h' }
+    );
+
+    // Redirigir con el token y los datos necesarios
+    const encodedUserName = encodeURIComponent(user.nombre);
+    res.redirect(`https://citasmedicas4.netlify.app/citas/${user.id}/${encodedUserName}?token=${token}`);
+  } catch (error) {
+    console.error('Error in Spotify callback:', error);
+    res.redirect('/login?error=internal_server_error');
+  }
+}
+);
 
 
 // Iniciar el servidor
