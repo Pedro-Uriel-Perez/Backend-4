@@ -1,5 +1,5 @@
   import express from 'express';
-  import mysql, { OkPacket, Pool, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+  import mysql, { OkPacket, Pool, PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
   import * as bcrypt from 'bcryptjs';
 
   
@@ -47,15 +47,27 @@ import { Strategy as SpotifyStrategy } from 'passport-spotify';
   app.use(passport.initialize());
   app.use(passport.session());
   
-  // Conexiones a la base de datos
   const pool: Pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: parseInt(process.env.DB_PORT || '3306'),
-    connectionLimit: 5
+    connectionLimit: 5,  // Reducido de 10 a 5
+    waitForConnections: true,
+    queueLimit: 0
   });
+
+  // Healthcheck cada 30 segundos
+setInterval(async () => {
+  try {
+    await pool.execute('SELECT 1');
+  } catch (error) {
+    console.error('Error en healthcheck:', error);
+  }
+}, 30000);
+
+
 
   // En tu server.ts antes de compilar
 app.use((req, res, next) => {
@@ -890,9 +902,6 @@ app.post('/api/login', async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Error en la autenticación' });
   }
 });
-
-
-
 
 
 

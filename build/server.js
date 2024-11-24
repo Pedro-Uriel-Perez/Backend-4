@@ -59,15 +59,25 @@ app.use((0, express_session_1.default)({
 // Inicialización de Passport
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
-// Conexiones a la base de datos
 const pool = promise_1.default.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: parseInt(process.env.DB_PORT || '3306'),
-    connectionLimit: 10
+    connectionLimit: 5,
+    waitForConnections: true,
+    queueLimit: 0
 });
+// Healthcheck cada 30 segundos
+setInterval(async () => {
+    try {
+        await pool.execute('SELECT 1');
+    }
+    catch (error) {
+        console.error('Error en healthcheck:', error);
+    }
+}, 30000);
 // En tu server.ts antes de compilar
 app.use((req, res, next) => {
     console.log('Request Path:', req.path);
