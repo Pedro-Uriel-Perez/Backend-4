@@ -53,7 +53,7 @@ import { Strategy as SpotifyStrategy } from 'passport-spotify';
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: parseInt(process.env.DB_PORT || '3306'),
-    connectionLimit: 5,  // Reducido de 10 a 5
+    connectionLimit: 4,  // Reducido de 10 a 5
     waitForConnections: true,
     queueLimit: 0
   });
