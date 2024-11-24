@@ -47,26 +47,17 @@ import { Strategy as SpotifyStrategy } from 'passport-spotify';
   app.use(passport.initialize());
   app.use(passport.session());
   
+  // Conexiones a la base de datos
   const pool: Pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: parseInt(process.env.DB_PORT || '3306'),
-    connectionLimit: 5,  // Reducido de 10 a 5
-    waitForConnections: true,
-    queueLimit: 0
+    connectionLimit: 5
   });
 
-  // Healthcheck cada 30 segundos
-setInterval(async () => {
-  try {
-    await pool.execute('SELECT 1');
-  } catch (error) {
-    console.error('Error en healthcheck:', error);
-  }
-}, 30000);
-
+  
 
 
   // En tu server.ts antes de compilar
@@ -946,22 +937,6 @@ app.post('/api/login', async (req: Request, res: Response) => {
 
 
 
-
-// Ruta GET para obtener todas las citas   SE LO PUSE POR QUE NO SERVIA ANTES 
-app.get('/api/citas', async (req: Request, res: Response) => {
-  try {
-    const [rows] = await pool.execute<RowDataPacket[]>(
-      `SELECT c.*, m.nombre as nombreMedico, m.especialidad, m.hospital 
-       FROM citas c 
-       LEFT JOIN medicos m ON c.IdMedico = m.id 
-       ORDER BY c.fecha DESC, c.hora DESC`
-    );
-    res.json(rows);
-  } catch (error) {
-    console.error('Error al obtener citas:', error);
-    res.status(500).json({ error: 'Error al obtener citas' });
-  }
-});
 
 // Ruta para registrar una nueva cita
 app.post('/api/citas', async (req, res) => {
