@@ -903,9 +903,65 @@ app.post('/api/login', async (req: Request, res: Response) => {
   }
 });
 
+// Ruta de login
+app.post('/api/login', async (req: Request, res: Response) => {
+  try {
+    const { correo, contrase } = req.body;
+
+    const [rows] = await pool.execute<RowDataPacket[]>('SELECT * FROM usuarios WHERE correo = ?', [correo]);
+
+    if (rows.length > 0) {
+      const user = rows[0];
+      const isMatch = await bcrypt.compare(contrase, user.contrase);
+
+      await pool.execute<OkPacket>(
+        'INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)',
+        [user.id, isMatch]
+      );
+
+      if (isMatch) {
+        // Enviar notificación por correo
+        await sendLoginNotification(correo);
+
+        res.json({
+          isAuthenticated: true,
+          userId: user.id.toString(),
+          userName: user.nombre
+        });
+      } else {
+        res.json({ isAuthenticated: false });
+      }
+    } else {
+      await pool.execute<OkPacket>(
+        'INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)',
+        [null, false]
+      );
+      res.json({ isAuthenticated: false });
+    }
+  } catch (error) {
+    console.error('Error en la autenticación:', error);
+    res.status(500).json({ error: 'Error en la autenticación' });
+  }
+});
 
 
 
+
+// Ruta GET para obtener todas las citas   SE LO PUSE POR QUE NO SERVIA ANTES 
+app.get('/api/citas', async (req: Request, res: Response) => {
+  try {
+    const [rows] = await pool.execute<RowDataPacket[]>(
+      `SELECT c.*, m.nombre as nombreMedico, m.especialidad, m.hospital 
+       FROM citas c 
+       LEFT JOIN medicos m ON c.IdMedico = m.id 
+       ORDER BY c.fecha DESC, c.hora DESC`
+    );
+    res.json(rows);
+  } catch (error) {
+    console.error('Error al obtener citas:', error);
+    res.status(500).json({ error: 'Error al obtener citas' });
+  }
+});
 
 // Ruta para registrar una nueva cita
 app.post('/api/citas', async (req, res) => {
