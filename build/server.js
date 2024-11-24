@@ -1062,10 +1062,11 @@ app.delete('/api/historial-medico/:idRegistro', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
+//SPOTYFY
 passport_1.default.use(new passport_spotify_1.Strategy({
-    clientID: process.env.SPOTIFY_CLIENT_ID,
-    clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    callbackURL: "https://backend-4-seven.vercel.app/api/auth/spotify/callback"
+    clientID: process.env.SPOTIFY_CLIENT_ID || '2aaab0af49ac40b5a78ae868e50bb7d0',
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET || '9bccdb16cdde4f6d8814ce74585f7e14',
+    callbackURL: process.env.SPOTIFY_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/spotify/callback"
 }, async function (accessToken, refreshToken, profile, done) {
     try {
         console.log('Profile from Spotify:', JSON.stringify(profile, null, 2));

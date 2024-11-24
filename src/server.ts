@@ -1312,10 +1312,12 @@ app.delete('/api/historial-medico/:idRegistro', async (req, res) => {
 });
 
 
+
+//SPOTYFY
 passport.use(new SpotifyStrategy({
-  clientID: process.env.SPOTIFY_CLIENT_ID!,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET!,
-  callbackURL: "https://backend-4-seven.vercel.app/api/auth/spotify/callback"
+  clientID: process.env.SPOTIFY_CLIENT_ID || '2aaab0af49ac40b5a78ae868e50bb7d0',
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET || '9bccdb16cdde4f6d8814ce74585f7e14',
+    callbackURL: process.env.SPOTIFY_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/spotify/callback"
 },
 async function(accessToken: string, refreshToken: string, profile: any, done: any) {
   try {
