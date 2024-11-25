@@ -39,7 +39,6 @@ const paypal = __importStar(require("@paypal/checkout-server-sdk"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const winston_1 = __importDefault(require("winston"));
 const node_fetch_1 = __importDefault(require("node-fetch"));
-const passport_spotify_1 = require("passport-spotify");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -476,7 +475,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req, res) => {
 passport_1.default.use(new passport_github2_1.Strategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.GITHUB_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL || "http://backend-4-seven.vercel.app/api/auth/github/callback"
 }, async function (accessToken, refreshToken, profile, done) {
     try {
         console.log('Profile from GitHub:', JSON.stringify(profile, null, 2));
@@ -518,7 +517,7 @@ app.get('/api/auth/github/callback', passport_1.default.authenticate('github', {
         // Codifica el nombre de usuario para la URL
         const encodedUserName = encodeURIComponent(user.nombre);
         // Redirige a la página de citas con userId y userName
-        res.redirect(`https://citasmedicas4.netlify.app/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
+        res.redirect(`http://citasmedicas4.netlify.app/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
     }
     catch (error) {
         console.error('Error in GitHub callback:', error);
@@ -547,7 +546,7 @@ app.get('/api/auth/github/callback', passport_1.default.authenticate('github', {
         correo: user.correo,
         github_id: user.github_id
     }, process.env.JWT_SECRET || 'tu_secreto_jwt', { expiresIn: '1h' });
-    res.redirect(`https://citasmedicas4.netlify.app/auth-callback?token=${token}`);
+    res.redirect(`http://citasmedicas4.netlify.app/auth-callback?token=${token}`);
 });
 app.get('/api/user', authenticateToken, async (req, res) => {
     try {
@@ -703,38 +702,6 @@ app.get('/api/usuarios/:id?', async (req, res) => {
     catch (error) {
         console.error('Error al obtener usuario(s):', error);
         return res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
-// Ruta de login
-app.post('/api/login', async (req, res) => {
-    try {
-        const { correo, contrase } = req.body;
-        const [rows] = await pool.execute('SELECT * FROM usuarios WHERE correo = ?', [correo]);
-        if (rows.length > 0) {
-            const user = rows[0];
-            const isMatch = await bcrypt.compare(contrase, user.contrase);
-            await pool.execute('INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)', [user.id, isMatch]);
-            if (isMatch) {
-                // Enviar notificación por correo
-                await sendLoginNotification(correo);
-                res.json({
-                    isAuthenticated: true,
-                    userId: user.id.toString(),
-                    userName: user.nombre
-                });
-            }
-            else {
-                res.json({ isAuthenticated: false });
-            }
-        }
-        else {
-            await pool.execute('INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)', [null, false]);
-            res.json({ isAuthenticated: false });
-        }
-    }
-    catch (error) {
-        console.error('Error en la autenticación:', error);
-        res.status(500).json({ error: 'Error en la autenticación' });
     }
 });
 // Ruta de login
@@ -1094,63 +1061,10 @@ app.delete('/api/historial-medico/:idRegistro', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-//SPOTYFY
-passport_1.default.use(new passport_spotify_1.Strategy({
-    clientID: process.env.SPOTIFY_CLIENT_ID || '2aaab0af49ac40b5a78ae868e50bb7d0',
-    clientSecret: process.env.SPOTIFY_CLIENT_SECRET || '9bccdb16cdde4f6d8814ce74585f7e14',
-    callbackURL: process.env.SPOTIFY_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/spotify/callback"
-}, async function (accessToken, refreshToken, profile, done) {
-    try {
-        console.log('Profile from Spotify:', JSON.stringify(profile, null, 2));
-        // Guardar tokens de Spotify
-        const [rows] = await pool.execute('SELECT * FROM usuarios WHERE id = ?', [profile.id]);
-        if (rows.length > 0) {
-            await pool.execute('UPDATE usuarios SET spotify_token = ?, spotify_refresh_token = ? WHERE id = ?', [accessToken, refreshToken, profile.id]);
-            done(null, { ...rows[0], spotify_token: accessToken });
-        }
-        else {
-            done(null, { spotify_token: accessToken });
-        }
-    }
-    catch (error) {
-        console.error('Error in Spotify strategy:', error);
-        done(error);
-    }
-}));
-// Rutas de Spotify
-app.get('/api/auth/spotify', passport_1.default.authenticate('spotify', {
-    scope: [
-        'streaming',
-        'user-read-email',
-        'user-read-private',
-        'user-read-playback-state',
-        'user-modify-playback-state',
-        'user-read-currently-playing',
-        'app-remote-control'
-    ]
-}));
-app.get('/api/auth/spotify/callback', passport_1.default.authenticate('spotify', { failureRedirect: '/login' }), function (req, res) {
-    try {
-        const user = req.user;
-        if (!user) {
-            console.error('No user data after Spotify authentication');
-            return res.redirect('/login?error=authentication_failed');
-        }
-        // Crear un token que incluya los datos de Spotify
-        const token = jsonwebtoken_1.default.sign({
-            id: user.id,
-            nombre: user.nombre,
-            spotify_token: user.spotify_token
-        }, process.env.JWT_SECRET || 'tu_secreto_jwt', { expiresIn: '1h' });
-        // Redirigir con el token y los datos necesarios
-        const encodedUserName = encodeURIComponent(user.nombre);
-        res.redirect(`https://citasmedicas4.netlify.app/citas/${user.id}/${encodedUserName}?token=${token}`);
-    }
-    catch (error) {
-        console.error('Error in Spotify callback:', error);
-        res.redirect('/login?error=internal_server_error');
-    }
-});
 // Iniciar el servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Funcionando este rollo,  corriendo en puerto ${PORT}`);
+});
 exports.default = app;
 //# sourceMappingURL=server.js.map

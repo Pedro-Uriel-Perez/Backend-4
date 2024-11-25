@@ -545,7 +545,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req: Request, res: Response) 
   passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-    callbackURL: process.env.GITHUB_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL || "http://backend-4-seven.vercel.app/api/auth/github/callback"
   },
   async function(accessToken: string, refreshToken: string, profile: any, done: (error: any, user?: any) => void) {
     try {
@@ -607,7 +607,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req: Request, res: Response) 
           const encodedUserName = encodeURIComponent(user.nombre);
     
           // Redirige a la página de citas con userId y userName
-          res.redirect(`https://citasmedicas4.netlify.app/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
+          res.redirect(`http://citasmedicas4.netlify.app/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
         } catch (error) {
           console.error('Error in GitHub callback:', error);
           res.redirect('/login?error=internal_server_error');
@@ -646,7 +646,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req: Request, res: Response) 
           process.env.JWT_SECRET || 'tu_secreto_jwt', 
           { expiresIn: '1h' }
         );
-        res.redirect(`https://citasmedicas4.netlify.app/auth-callback?token=${token}`);
+        res.redirect(`http://citasmedicas4.netlify.app/auth-callback?token=${token}`);
       });
 
 
@@ -894,46 +894,6 @@ app.post('/api/login', async (req: Request, res: Response) => {
   }
 });
 
-// Ruta de login
-app.post('/api/login', async (req: Request, res: Response) => {
-  try {
-    const { correo, contrase } = req.body;
-
-    const [rows] = await pool.execute<RowDataPacket[]>('SELECT * FROM usuarios WHERE correo = ?', [correo]);
-
-    if (rows.length > 0) {
-      const user = rows[0];
-      const isMatch = await bcrypt.compare(contrase, user.contrase);
-
-      await pool.execute<OkPacket>(
-        'INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)',
-        [user.id, isMatch]
-      );
-
-      if (isMatch) {
-        // Enviar notificación por correo
-        await sendLoginNotification(correo);
-
-        res.json({
-          isAuthenticated: true,
-          userId: user.id.toString(),
-          userName: user.nombre
-        });
-      } else {
-        res.json({ isAuthenticated: false });
-      }
-    } else {
-      await pool.execute<OkPacket>(
-        'INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)',
-        [null, false]
-      );
-      res.json({ isAuthenticated: false });
-    }
-  } catch (error) {
-    console.error('Error en la autenticación:', error);
-    res.status(500).json({ error: 'Error en la autenticación' });
-  }
-});
 
 
 
@@ -1351,84 +1311,11 @@ app.delete('/api/historial-medico/:idRegistro', async (req, res) => {
 });
 
 
-
-//SPOTYFY
-passport.use(new SpotifyStrategy({
-  clientID: process.env.SPOTIFY_CLIENT_ID || '2aaab0af49ac40b5a78ae868e50bb7d0',
-    clientSecret: process.env.SPOTIFY_CLIENT_SECRET || '9bccdb16cdde4f6d8814ce74585f7e14',
-    callbackURL: process.env.SPOTIFY_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/spotify/callback"
-},
-async function(accessToken: string, refreshToken: string, profile: any, done: any) {
-  try {
-    console.log('Profile from Spotify:', JSON.stringify(profile, null, 2));
-
-    // Guardar tokens de Spotify
-    const [rows] = await pool.execute<RowDataPacket[]>('SELECT * FROM usuarios WHERE id = ?', [profile.id]);
-    if (rows.length > 0) {
-      await pool.execute(
-        'UPDATE usuarios SET spotify_token = ?, spotify_refresh_token = ? WHERE id = ?',
-        [accessToken, refreshToken, profile.id]
-      );
-      done(null, { ...rows[0], spotify_token: accessToken });
-    } else {
-      done(null, { spotify_token: accessToken });
-    }
-  } catch (error) {
-    console.error('Error in Spotify strategy:', error);
-    done(error);
-  }
-}
-));
-
-// Rutas de Spotify
-app.get('/api/auth/spotify',
-passport.authenticate('spotify', { 
-  scope: [
-    'streaming',
-    'user-read-email',
-    'user-read-private',
-    'user-read-playback-state',
-    'user-modify-playback-state',
-    'user-read-currently-playing',
-    'app-remote-control'
-  ]
-})
-);
-
-app.get('/api/auth/spotify/callback',
-passport.authenticate('spotify', { failureRedirect: '/login' }),
-function(req: any, res: Response) {
-  try {
-    const user = req.user;
-    if (!user) {
-      console.error('No user data after Spotify authentication');
-      return res.redirect('/login?error=authentication_failed');
-    }
-
-    // Crear un token que incluya los datos de Spotify
-    const token = jwt.sign(
-      {
-        id: user.id,
-        nombre: user.nombre,
-        spotify_token: user.spotify_token
-      },
-      process.env.JWT_SECRET || 'tu_secreto_jwt',
-      { expiresIn: '1h' }
-    );
-
-    // Redirigir con el token y los datos necesarios
-    const encodedUserName = encodeURIComponent(user.nombre);
-    res.redirect(`https://citasmedicas4.netlify.app/citas/${user.id}/${encodedUserName}?token=${token}`);
-  } catch (error) {
-    console.error('Error in Spotify callback:', error);
-    res.redirect('/login?error=internal_server_error');
-  }
-}
-);
-
-
 // Iniciar el servidor
-
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Funcionando este rollo,  corriendo en puerto ${PORT}`);
+});
 
 export default app;
 
