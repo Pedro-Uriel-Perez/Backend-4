@@ -39,6 +39,7 @@ const paypal = __importStar(require("@paypal/checkout-server-sdk"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const winston_1 = __importDefault(require("winston"));
 const node_fetch_1 = __importDefault(require("node-fetch"));
+const passport_spotify_1 = require("passport-spotify");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -119,81 +120,81 @@ async function enviarComprobantePago(emailHospital, detallesPago, idTransaccion)
             to: emailHospital,
             subject: 'Comprobante de Pago - Citas Médicas',
             html: `
-        <!DOCTYPE html>
-        <html lang="es">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Comprobante de Pago - Citas Médicas</title>
-        </head>
-        <body style="font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; margin: 0; padding: 0;">
-          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            <!-- Encabezado -->
-            <div style="text-align: center; margin-bottom: 30px; padding: 20px;">
-              <h1 style="color: #1a73e8; margin: 0; font-size: 28px; font-weight: 600;">Citas Médicas</h1>
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Comprobante de Pago - Citas Médicas</title>
+      </head>
+      <body style="font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; margin: 0; padding: 0;">
+        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+          <!-- Encabezado -->
+          <div style="text-align: center; margin-bottom: 30px; padding: 20px;">
+            <h1 style="color: #1a73e8; margin: 0; font-size: 28px; font-weight: 600;">Citas Médicas</h1>
+          </div>
+
+          <!-- Contenedor Principal -->
+          <div style="background-color: white; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;">
+            <!-- Mensaje de éxito -->
+            <div style="text-align: center; margin-bottom: 30px;">
+              <div style="background-color: #e8f5e9; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
+                <span style="color: #1DB954; font-size: 30px;">✓</span>
+              </div>
+              <h2 style="color: #1DB954; margin: 0; font-size: 22px;">¡Pago Exitoso!</h2>
+              <p style="color: #5f6368; margin-top: 10px;">Gracias por su pago. A continuación, encontrará los detalles de su transacción.</p>
             </div>
 
-            <!-- Contenedor Principal -->
-            <div style="background-color: white; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;">
-              <!-- Mensaje de éxito -->
-              <div style="text-align: center; margin-bottom: 30px;">
-                <div style="background-color: #e8f5e9; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
-                  <span style="color: #1DB954; font-size: 30px;">✓</span>
-                </div>
-                <h2 style="color: #1DB954; margin: 0; font-size: 22px;">¡Pago Exitoso!</h2>
-                <p style="color: #5f6368; margin-top: 10px;">Gracias por su pago. A continuación, encontrará los detalles de su transacción.</p>
-              </div>
-
-              <!-- Detalles de la transacción -->
-              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-                <table style="width: 100%; border-collapse: separate; border-spacing: 0 12px;">
-                  <tr>
-                    <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">ID de Transacción</td>
-                    <td style="text-align: right; color: #1a73e8; font-weight: 600;">${idTransaccion}</td>
-                  </tr>
-                  <tr>
-                    <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">Monto Pagado</td>
-                    <td style="text-align: right; color: #1DB954; font-weight: 600; font-size: 20px;">$${detallesPago.purchase_units[0].amount.value}</td>
-                  </tr>
-                  <tr>
-                    <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">Fecha y Hora</td>
-                    <td style="text-align: right; color: #5f6368;">${new Date().toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">Método de Pago</td>
-                    <td style="text-align: right;">
-                      <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="PayPal" style="height: 20px; vertical-align: middle;"> PayPal
-                    </td>
-                  </tr>
-                </table>
-              </div>
-
-              <!-- Información de contacto -->
-              <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
-                <h3 style="color: #1a73e8; margin-bottom: 15px; font-size: 18px;">¿Necesita ayuda?</h3>
-                <p style="color: #5f6368; margin-bottom: 15px;">Estamos aquí para ayudarle. Contáctenos a través de:</p>
-                <div style="display: inline-block; text-align: center;">
-                  <div style="margin-bottom: 10px;">
-                    <span style="color: #1a73e8;">📧</span>
-                    <a href="mailto:soporte@citasmedicas.com" style="color: #1a73e8; text-decoration: none;">soporte@citasmedicas.com</a>
-                  </div>
-                  <div>
-                    <span style="color: #1a73e8;">📞</span>
-                    <a href="tel:+524151775265" style="color: #1a73e8; text-decoration: none;">+52 415 177 52 65</a>
-                  </div>
-                </div>
-              </div>
+            <!-- Detalles de la transacción -->
+            <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+              <table style="width: 100%; border-collapse: separate; border-spacing: 0 12px;">
+                <tr>
+                  <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">ID de Transacción</td>
+                  <td style="text-align: right; color: #1a73e8; font-weight: 600;">${idTransaccion}</td>
+                </tr>
+                <tr>
+                  <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">Monto Pagado</td>
+                  <td style="text-align: right; color: #1DB954; font-weight: 600; font-size: 20px;">$${detallesPago.purchase_units[0].amount.value}</td>
+                </tr>
+                <tr>
+                  <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">Fecha y Hora</td>
+                  <td style="text-align: right; color: #5f6368;">${new Date().toLocaleString()}</td>
+                </tr>
+                <tr>
+                  <td style="color: #5f6368; font-weight: 500; padding: 8px 0;">Método de Pago</td>
+                  <td style="text-align: right;">
+                    <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" alt="PayPal" style="height: 20px; vertical-align: middle;"> PayPal
+                  </td>
+                </tr>
+              </table>
             </div>
 
-            <!-- Pie de página -->
-            <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-              <p style="color: #5f6368; font-size: 12px; margin-bottom: 10px;">Este es un correo electrónico automático, por favor no responda a este mensaje.</p>
-              <p style="color: #5f6368; font-size: 12px;">&copy; ${new Date().getFullYear()} Citas Médicas. Todos los derechos reservados.</p>
+            <!-- Información de contacto -->
+            <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px;">
+              <h3 style="color: #1a73e8; margin-bottom: 15px; font-size: 18px;">¿Necesita ayuda?</h3>
+              <p style="color: #5f6368; margin-bottom: 15px;">Estamos aquí para ayudarle. Contáctenos a través de:</p>
+              <div style="display: inline-block; text-align: center;">
+                <div style="margin-bottom: 10px;">
+                  <span style="color: #1a73e8;">📧</span>
+                  <a href="mailto:soporte@citasmedicas.com" style="color: #1a73e8; text-decoration: none;">soporte@citasmedicas.com</a>
+                </div>
+                <div>
+                  <span style="color: #1a73e8;">📞</span>
+                  <a href="tel:+524151775265" style="color: #1a73e8; text-decoration: none;">+52 415 177 52 65</a>
+                </div>
+              </div>
             </div>
           </div>
-        </body>
-        </html>
-      `
+
+          <!-- Pie de página -->
+          <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+            <p style="color: #5f6368; font-size: 12px; margin-bottom: 10px;">Este es un correo electrónico automático, por favor no responda a este mensaje.</p>
+            <p style="color: #5f6368; font-size: 12px;">&copy; ${new Date().getFullYear()} Citas Médicas. Todos los derechos reservados.</p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `
         });
         logger.info('Correo enviado exitosamente:', info.messageId);
         return info;
@@ -357,76 +358,76 @@ async function sendLoginNotification(userEmail) {
             to: userEmail,
             subject: 'Inicio de sesión - Citas Médicas',
             html: `
-        <!DOCTYPE html>
-        <html lang="es">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Inicio de sesión - Citas Médicas</title>
-        </head>
-        <body style="font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; margin: 0; padding: 0;">
-          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            <!-- Header con efecto gradiente -->
-            <div style="text-align: center; background: linear-gradient(135deg, #1a73e8, #0056b3); padding: 30px; border-radius: 12px; margin-bottom: 30px;">
-              <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 600;">Citas Médicas</h1>
-              <p style="color: rgba(255,255,255,0.9); margin-top: 10px; font-size: 16px;">Sistema de Gestión Médica</p>
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Inicio de sesión - Citas Médicas</title>
+      </head>
+      <body style="font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; margin: 0; padding: 0;">
+        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+          <!-- Header con efecto gradiente -->
+          <div style="text-align: center; background: linear-gradient(135deg, #1a73e8, #0056b3); padding: 30px; border-radius: 12px; margin-bottom: 30px;">
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 600;">Citas Médicas</h1>
+            <p style="color: rgba(255,255,255,0.9); margin-top: 10px; font-size: 16px;">Sistema de Gestión Médica</p>
+          </div>
+
+          <!-- Contenedor Principal -->
+          <div style="background-color: white; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;">
+            <!-- Ícono de notificación -->
+            <div style="text-align: center; margin-bottom: 30px;">
+              <div style="background-color: #e8f0fe; border-radius: 50%; width: 70px; height: 70px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 30px;">🔐</span>
+              </div>
+              <h2 style="color: #1a73e8; margin: 0; font-size: 24px;">Nuevo Inicio de Sesión Detectado</h2>
+              <p style="color: #5f6368; margin-top: 10px;">Se ha registrado un nuevo acceso a tu cuenta.</p>
             </div>
 
-            <!-- Contenedor Principal -->
-            <div style="background-color: white; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 30px;">
-              <!-- Ícono de notificación -->
-              <div style="text-align: center; margin-bottom: 30px;">
-                <div style="background-color: #e8f0fe; border-radius: 50%; width: 70px; height: 70px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-size: 30px;">🔐</span>
-                </div>
-                <h2 style="color: #1a73e8; margin: 0; font-size: 24px;">Nuevo Inicio de Sesión Detectado</h2>
-                <p style="color: #5f6368; margin-top: 10px;">Se ha registrado un nuevo acceso a tu cuenta.</p>
-              </div>
-
-              <!-- Mensaje principal -->
-              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 25px;">
-                <p style="color: #202124; margin: 0 0 15px 0; font-size: 16px;">
-                  Hemos detectado un nuevo inicio de sesión en tu cuenta. Si fuiste tú, puedes ignorar este mensaje. Si no reconoces esta actividad, por favor toma acción inmediata.
+            <!-- Mensaje principal -->
+            <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 25px;">
+              <p style="color: #202124; margin: 0 0 15px 0; font-size: 16px;">
+                Hemos detectado un nuevo inicio de sesión en tu cuenta. Si fuiste tú, puedes ignorar este mensaje. Si no reconoces esta actividad, por favor toma acción inmediata.
+              </p>
+              <div style="text-align: center;">
+                <p style="color: #5f6368; margin: 5px 0;">
+                  <strong>Fecha y Hora:</strong> ${new Date().toLocaleString()}
                 </p>
-                <div style="text-align: center;">
-                  <p style="color: #5f6368; margin: 5px 0;">
-                    <strong>Fecha y Hora:</strong> ${new Date().toLocaleString()}
-                  </p>
-                </div>
-              </div>
-
-              <!-- Botón de contacto -->
-              <div style="text-align: center; margin-top: 30px;">
-                <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px;">
-                  <h3 style="color: #1a73e8; margin: 0 0 15px 0; font-size: 18px;">¿Necesitas ayuda?</h3>
-                  <p style="color: #5f6368; margin-bottom: 20px;">Nuestro equipo de soporte está disponible 24/7</p>
-                  <div style="margin-bottom: 10px;">
-                    <a href="tel:+524151775265" style="color: #1a73e8; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-                      📞 +52 415 177 52 65
-                    </a>
-                  </div>
-                  <div>
-                    <a href="mailto:soporte@citasmedicas.com" style="color: #1a73e8; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-                      📧 soporte@citasmedicas.com
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
 
-            <!-- Footer -->
-            <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-              <p style="color: #5f6368; font-size: 12px; margin-bottom: 10px;">
-                Este es un correo electrónico automático de seguridad. Por favor, no responda a este mensaje.
-              </p>
-              <p style="color: #5f6368; font-size: 12px;">
-                &copy; ${new Date().getFullYear()} Citas Médicas. Todos los derechos reservados.
-              </p>
+            <!-- Botón de contacto -->
+            <div style="text-align: center; margin-top: 30px;">
+              <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px;">
+                <h3 style="color: #1a73e8; margin: 0 0 15px 0; font-size: 18px;">¿Necesitas ayuda?</h3>
+                <p style="color: #5f6368; margin-bottom: 20px;">Nuestro equipo de soporte está disponible 24/7</p>
+                <div style="margin-bottom: 10px;">
+                  <a href="tel:+524151775265" style="color: #1a73e8; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                    📞 +52 415 177 52 65
+                  </a>
+                </div>
+                <div>
+                  <a href="mailto:soporte@citasmedicas.com" style="color: #1a73e8; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+                    📧 soporte@citasmedicas.com
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        </body>
-        </html>
-      `
+
+          <!-- Footer -->
+          <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+            <p style="color: #5f6368; font-size: 12px; margin-bottom: 10px;">
+              Este es un correo electrónico automático de seguridad. Por favor, no responda a este mensaje.
+            </p>
+            <p style="color: #5f6368; font-size: 12px;">
+              &copy; ${new Date().getFullYear()} Citas Médicas. Todos los derechos reservados.
+            </p>
+          </div>
+        </div>
+      </body>
+      </html>
+    `
         });
         console.log('Email de notificación enviado');
     }
@@ -475,7 +476,7 @@ app.get('/api/drugs/adverse-effects/:name', async (req, res) => {
 passport_1.default.use(new passport_github2_1.Strategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.GITHUB_CALLBACK_URL || "http://backend-4-seven.vercel.app/api/auth/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/github/callback"
 }, async function (accessToken, refreshToken, profile, done) {
     try {
         console.log('Profile from GitHub:', JSON.stringify(profile, null, 2));
@@ -517,7 +518,7 @@ app.get('/api/auth/github/callback', passport_1.default.authenticate('github', {
         // Codifica el nombre de usuario para la URL
         const encodedUserName = encodeURIComponent(user.nombre);
         // Redirige a la página de citas con userId y userName
-        res.redirect(`http://citasmedicas4.netlify.app/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
+        res.redirect(`https://citasmedicas4.netlify.app/citas;userId=${user.id};userName=${encodedUserName}?token=${token}`);
     }
     catch (error) {
         console.error('Error in GitHub callback:', error);
@@ -546,7 +547,7 @@ app.get('/api/auth/github/callback', passport_1.default.authenticate('github', {
         correo: user.correo,
         github_id: user.github_id
     }, process.env.JWT_SECRET || 'tu_secreto_jwt', { expiresIn: '1h' });
-    res.redirect(`http://citasmedicas4.netlify.app/auth-callback?token=${token}`);
+    res.redirect(`https://citasmedicas4.netlify.app/auth-callback?token=${token}`);
 });
 app.get('/api/user', authenticateToken, async (req, res) => {
     try {
@@ -736,6 +737,38 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Error en la autenticación' });
     }
 });
+// Ruta de login
+app.post('/api/login', async (req, res) => {
+    try {
+        const { correo, contrase } = req.body;
+        const [rows] = await pool.execute('SELECT * FROM usuarios WHERE correo = ?', [correo]);
+        if (rows.length > 0) {
+            const user = rows[0];
+            const isMatch = await bcrypt.compare(contrase, user.contrase);
+            await pool.execute('INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)', [user.id, isMatch]);
+            if (isMatch) {
+                // Enviar notificación por correo
+                await sendLoginNotification(correo);
+                res.json({
+                    isAuthenticated: true,
+                    userId: user.id.toString(),
+                    userName: user.nombre
+                });
+            }
+            else {
+                res.json({ isAuthenticated: false });
+            }
+        }
+        else {
+            await pool.execute('INSERT INTO login_attempts (usuario_id, exitoso) VALUES (?, ?)', [null, false]);
+            res.json({ isAuthenticated: false });
+        }
+    }
+    catch (error) {
+        console.error('Error en la autenticación:', error);
+        res.status(500).json({ error: 'Error en la autenticación' });
+    }
+});
 // Ruta para registrar una nueva cita
 app.post('/api/citas', async (req, res) => {
     try {
@@ -759,10 +792,10 @@ app.post('/api/citas', async (req, res) => {
 app.get('/api/citas/:idPaciente', async (req, res) => {
     try {
         const [rows] = await pool.execute(`SELECT c.*, m.nombre as nombreMedico, m.especialidad, m.hospital, m.telefono as telefonoMedico, m.correo as correoMedico 
-       FROM citas c 
-       LEFT JOIN medicos m ON c.IdMedico = m.id 
-       WHERE c.idPaciente = ? 
-       ORDER BY c.fecha DESC, c.hora DESC`, [req.params.idPaciente]);
+     FROM citas c 
+     LEFT JOIN medicos m ON c.IdMedico = m.id 
+     WHERE c.idPaciente = ? 
+     ORDER BY c.fecha DESC, c.hora DESC`, [req.params.idPaciente]);
         console.log('Citas encontradas:', rows);
         res.json(rows);
     }
@@ -776,10 +809,10 @@ app.get('/api/citas/idcita/:idCita', async (req, res) => {
     try {
         const idCita = req.params.idCita;
         const [rows] = await pool.execute(`SELECT c.*, m.nombre as nombreMedico, m.especialidad, m.hospital, m.telefono as telefonoMedico, m.correo as correoMedico
-       FROM citas c 
-       LEFT JOIN medicos m ON c.IdMedico = m.id 
-       LEFT JOIN usuarios p ON c.idPaciente = p.id
-       WHERE c.idcita = ?`, [idCita]);
+     FROM citas c 
+     LEFT JOIN medicos m ON c.IdMedico = m.id 
+     LEFT JOIN usuarios p ON c.idPaciente = p.id
+     WHERE c.idcita = ?`, [idCita]);
         if (rows.length === 0) {
             return res.status(404).json({ error: 'Cita no encontrada' });
         }
@@ -876,14 +909,14 @@ app.get('/api/citas-medico/:medicoId', async (req, res) => {
     try {
         const medicoId = req.params.medicoId;
         const [rows] = await pool.execute(`
-      SELECT c.*, 
-             u.nombre, u.apePaterno, u.apeMaterno, u.edad, u.tipoSangre, u.genero,
-             DATE_FORMAT(c.fecha, '%d/%m/%Y') as fechaFormateada,
-             TIME_FORMAT(c.hora, '%H:%i') as horaFormateada
-      FROM citas c 
-      JOIN usuarios u ON c.idPaciente = u.id 
-      WHERE c.IdMedico = ? 
-      ORDER BY c.fecha ASC, c.hora ASC`, [medicoId]);
+    SELECT c.*, 
+           u.nombre, u.apePaterno, u.apeMaterno, u.edad, u.tipoSangre, u.genero,
+           DATE_FORMAT(c.fecha, '%d/%m/%Y') as fechaFormateada,
+           TIME_FORMAT(c.hora, '%H:%i') as horaFormateada
+    FROM citas c 
+    JOIN usuarios u ON c.idPaciente = u.id 
+    WHERE c.IdMedico = ? 
+    ORDER BY c.fecha ASC, c.hora ASC`, [medicoId]);
         console.log('Datos crudos de citas:', rows);
         const citasFormateadas = rows.map(cita => ({
             idcita: cita.idcita,
@@ -966,9 +999,9 @@ app.post('/api/citas/:idCita/finalizar', async (req, res) => {
         const cita = citaRows[0];
         // Insertar historial médico
         await pool.execute(`
-      INSERT INTO historial_medico 
-      (id_paciente, id_medico, id_cita, fecha, diagnostico, tratamiento, observaciones, edad_paciente, tipo_sangre_paciente)
-      VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?)`, [
+    INSERT INTO historial_medico 
+    (id_paciente, id_medico, id_cita, fecha, diagnostico, tratamiento, observaciones, edad_paciente, tipo_sangre_paciente)
+    VALUES (?, ?, ?, NOW(), ?, ?, ?, ?, ?)`, [
             cita.idPaciente,
             cita.IdMedico,
             idCita,
@@ -991,18 +1024,18 @@ app.get('/api/historial-medico/:idPaciente', async (req, res) => {
         const idPaciente = req.params.idPaciente;
         console.log('Solicitando historial médico para el paciente:', idPaciente);
         const [rows] = await pool.execute(`
-      SELECT hm.*, 
-             c.fecha as fecha_cita, c.hora as hora_cita,
-             m.nombre as nombreMedico, m.apellido as apellidoMedico, m.especialidad,
-             u.nombre as nombrePaciente, u.apePaterno, u.apeMaterno, 
-             COALESCE(hm.edad_paciente, u.edad) as edad_paciente,
-             COALESCE(hm.tipo_sangre_paciente, u.tipoSangre) as tipo_sangre_paciente
-      FROM historial_medico hm
-      JOIN citas c ON hm.id_cita = c.idcita
-      JOIN medicos m ON hm.id_medico = m.id
-      JOIN usuarios u ON hm.id_paciente = u.id
-      WHERE hm.id_paciente = ?
-      ORDER BY c.fecha DESC, c.hora DESC`, [idPaciente]);
+    SELECT hm.*, 
+           c.fecha as fecha_cita, c.hora as hora_cita,
+           m.nombre as nombreMedico, m.apellido as apellidoMedico, m.especialidad,
+           u.nombre as nombrePaciente, u.apePaterno, u.apeMaterno, 
+           COALESCE(hm.edad_paciente, u.edad) as edad_paciente,
+           COALESCE(hm.tipo_sangre_paciente, u.tipoSangre) as tipo_sangre_paciente
+    FROM historial_medico hm
+    JOIN citas c ON hm.id_cita = c.idcita
+    JOIN medicos m ON hm.id_medico = m.id
+    JOIN usuarios u ON hm.id_paciente = u.id
+    WHERE hm.id_paciente = ?
+    ORDER BY c.fecha DESC, c.hora DESC`, [idPaciente]);
         console.log('Registros encontrados:', rows.length);
         if (rows.length === 0) {
             return res.status(404).json({ message: 'No se encontró historial médico para este paciente' });
@@ -1029,9 +1062,9 @@ app.put('/api/historial-medico/:idRegistro', async (req, res) => {
         const { diagnostico, tratamiento, observaciones } = req.body;
         console.log('Actualizando registro con ID:', idRegistro);
         const [result] = await pool.execute(`
-      UPDATE historial_medico 
-      SET diagnostico = ?, tratamiento = ?, observaciones = ? 
-      WHERE id = ?`, [diagnostico, tratamiento, observaciones, idRegistro]);
+    UPDATE historial_medico 
+    SET diagnostico = ?, tratamiento = ?, observaciones = ? 
+    WHERE id = ?`, [diagnostico, tratamiento, observaciones, idRegistro]);
         // Verificar si se actualizó algún registro
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'No se encontró el registro para actualizar' });
@@ -1049,7 +1082,7 @@ app.delete('/api/historial-medico/:idRegistro', async (req, res) => {
         const idRegistro = req.params.idRegistro;
         console.log('Eliminando registro con ID:', idRegistro);
         const [result] = await pool.execute(`
-      DELETE FROM historial_medico WHERE id = ?`, [idRegistro]);
+    DELETE FROM historial_medico WHERE id = ?`, [idRegistro]);
         // Verificar si se eliminó algún registro
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'No se encontró el registro para eliminar' });
@@ -1061,10 +1094,63 @@ app.delete('/api/historial-medico/:idRegistro', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
-// Iniciar el servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Funcionando este rollo,  corriendo en puerto ${PORT}`);
+//SPOTYFY
+passport_1.default.use(new passport_spotify_1.Strategy({
+    clientID: process.env.SPOTIFY_CLIENT_ID || '2aaab0af49ac40b5a78ae868e50bb7d0',
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET || '9bccdb16cdde4f6d8814ce74585f7e14',
+    callbackURL: process.env.SPOTIFY_CALLBACK_URL || "https://backend-4-seven.vercel.app/api/auth/spotify/callback"
+}, async function (accessToken, refreshToken, profile, done) {
+    try {
+        console.log('Profile from Spotify:', JSON.stringify(profile, null, 2));
+        // Guardar tokens de Spotify
+        const [rows] = await pool.execute('SELECT * FROM usuarios WHERE id = ?', [profile.id]);
+        if (rows.length > 0) {
+            await pool.execute('UPDATE usuarios SET spotify_token = ?, spotify_refresh_token = ? WHERE id = ?', [accessToken, refreshToken, profile.id]);
+            done(null, { ...rows[0], spotify_token: accessToken });
+        }
+        else {
+            done(null, { spotify_token: accessToken });
+        }
+    }
+    catch (error) {
+        console.error('Error in Spotify strategy:', error);
+        done(error);
+    }
+}));
+// Rutas de Spotify
+app.get('/api/auth/spotify', passport_1.default.authenticate('spotify', {
+    scope: [
+        'streaming',
+        'user-read-email',
+        'user-read-private',
+        'user-read-playback-state',
+        'user-modify-playback-state',
+        'user-read-currently-playing',
+        'app-remote-control'
+    ]
+}));
+app.get('/api/auth/spotify/callback', passport_1.default.authenticate('spotify', { failureRedirect: '/login' }), function (req, res) {
+    try {
+        const user = req.user;
+        if (!user) {
+            console.error('No user data after Spotify authentication');
+            return res.redirect('/login?error=authentication_failed');
+        }
+        // Crear un token que incluya los datos de Spotify
+        const token = jsonwebtoken_1.default.sign({
+            id: user.id,
+            nombre: user.nombre,
+            spotify_token: user.spotify_token
+        }, process.env.JWT_SECRET || 'tu_secreto_jwt', { expiresIn: '1h' });
+        // Redirigir con el token y los datos necesarios
+        const encodedUserName = encodeURIComponent(user.nombre);
+        res.redirect(`https://citasmedicas4.netlify.app/citas/${user.id}/${encodedUserName}?token=${token}`);
+    }
+    catch (error) {
+        console.error('Error in Spotify callback:', error);
+        res.redirect('/login?error=internal_server_error');
+    }
 });
+// Iniciar el servidor
 exports.default = app;
 //# sourceMappingURL=server.js.map
