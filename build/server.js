@@ -45,7 +45,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 // Configuración de CORS
 app.use((0, cors_1.default)({
-    origin: 'https://citasmedicas4.netlify.app',
+    origin: ['https://citasmedicas4.netlify.app', 'capacitor://localhost', 'http://localhost'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

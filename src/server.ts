@@ -30,7 +30,7 @@ app.use(express.json());
 
 // Configuración de CORS
 app.use(cors({
-  origin: 'https://citasmedicas4.netlify.app', //Creo que el que tenia era '*'
+  origin: ['https://citasmedicas4.netlify.app', 'capacitor://localhost', 'http://localhost'], // Agregar el origen de Android
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
